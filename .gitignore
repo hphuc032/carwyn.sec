@@ -1,0 +1,18 @@
+/node_modules/
+/.next/
+/out/
+/build/
+/dist/
+/coverage/
+/test-results/
+/playwright-report/
+*.tsbuildinfo
+next-env.d.ts
+*.log
+.env*
+!.env.example
+/.vercel/
+/.npm-cache/
+# Private originals: publish only deliberately reviewed derivatives later.
+/picture/
+/CV/

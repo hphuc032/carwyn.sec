@@ -1,0 +1,48 @@
+@theme {
+  --color-canvas: #050505;
+  --color-surface: #0b0d0f;
+  --color-primary: #f5f5f5;
+  --color-secondary: #b6bdc3;
+  --color-muted: #88939b;
+  --color-border: #252c31;
+  --color-control-border: #65717a;
+  --color-cyber: #00ffb2;
+  --color-digital: #00c8ff;
+  --color-alert: #ff3b5c;
+
+  /* Temporary, Vietnamese-capable system stacks; no unverified font binaries. */
+  --font-sans: Arial, "Helvetica Neue", sans-serif;
+  --font-mono: Consolas, "Liberation Mono", monospace;
+
+  --spacing: 0.25rem;
+  --spacing-section-mobile: 5rem;
+  --spacing-section-desktop: 9rem;
+  --container-site: 90rem;
+  --container-reading: 44rem;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-heading: 2rem;
+  --text-heading--line-height: 1.25;
+  --text-display: clamp(2.25rem, 6vw, 7.5rem);
+  --text-display--line-height: 1.15;
+
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-ui: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root {
+  --z-base: 0;
+  --z-status: 10;
+  --z-header: 20;
+  --z-menu: 30;
+  --z-cursor: 40;
+  --z-intro: 50;
+  --z-skip-link: 60;
+  --duration-ui: 160ms;
+  --duration-menu: 300ms;
+  --duration-enter: 550ms;
+  --duration-image: 800ms;
+}

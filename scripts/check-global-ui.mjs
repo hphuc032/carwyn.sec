@@ -66,7 +66,7 @@ try {
     assert.ok(await page.evaluate(() => document.querySelector("dialog").contains(document.activeElement)), "modal focus wraps");
     assert.ok(await page.evaluate(() => document.activeElement.matches(":focus-visible")));
     const oldUrl = page.url();
-    await page.locator(".index-links a").first().press("Enter");
+    await page.locator(".index-links a").nth(1).press("Enter");
     assert.equal(page.url(), oldUrl, "missing section must not change location");
     await page.getByRole("button", { name: close, exact: true }).click();
     await page.locator(".skip-link").focus();
@@ -78,17 +78,17 @@ try {
   // Ephemeral DOM fixture: verifies future sections without adding portfolio content.
   await page.evaluate(() => {
     const section = document.createElement("section");
-    section.id = "identity";
+    section.id = "expertise";
     section.style.minHeight = "100vh";
     section.textContent = "Observer test fixture";
     document.querySelector("main").append(section);
   });
-  await page.waitForFunction(() => document.querySelector('.index-links a[href$="#identity"]').getAttribute("aria-disabled") === "false");
+  await page.waitForFunction(() => document.querySelector('.index-links a[href$="#expertise"]').getAttribute("aria-disabled") === "false");
   await page.getByRole("button", { name: "Mục lục", exact: true }).click();
-  await page.locator('.index-links a[href$="#identity"]').click();
-  await page.waitForFunction(() => document.activeElement.id === "identity");
-  await page.waitForFunction(() => document.querySelector(".status-section").textContent.includes("01"));
-  await page.evaluate(() => document.getElementById("identity").remove());
+  await page.locator('.index-links a[href$="#expertise"]').click();
+  await page.waitForFunction(() => document.activeElement.id === "expertise");
+  await page.waitForFunction(() => document.querySelector(".status-section").textContent.includes("02"));
+  await page.evaluate(() => { document.getElementById("expertise").remove(); window.scrollTo(0, 0); });
   await page.waitForFunction(() => document.querySelector(".status-section").textContent.includes("00"));
   console.log("PASS dynamic section discovery, active index, removal, navigation focus");
 

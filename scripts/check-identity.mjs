@@ -1,0 +1,75 @@
+import assert from "node:assert/strict";
+import { createRequire } from "node:module";
+import { mkdir } from "node:fs/promises";
+const require = createRequire(import.meta.url);
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE_PATH ?? "playwright");
+const base = process.argv[2] ?? "http://127.0.0.1:3000";
+const browser = await chromium.launch({ channel: "msedge", headless: true });
+const errors = [];
+const context = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
+await context.addInitScript(() => sessionStorage.setItem("carwyn:initialized", "1"));
+const page = await context.newPage();
+page.on("pageerror", e => errors.push(e.message));
+page.on("console", m => { if (["error", "warning"].includes(m.type())) errors.push(m.text()); });
+try {
+  for (const locale of ["en", "vi"]) {
+    await page.goto(base + (locale === "vi" ? "/vi" : "/"));
+    for (const width of [375, 430, 768, 1024, 1440, 1920]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.locator("#identity").scrollIntoViewIfNeeded();
+      await page.locator(".identity-portrait img").evaluate(img => img.decode());
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${locale}/${width}: overflow`);
+      const geometry = await page.locator(".identity-name").evaluate(el => ({ width: el.clientWidth, scroll: el.scrollWidth }));
+      assert.ok(geometry.scroll <= geometry.width + 1, `${locale}/${width}: name wraps/overflows`);
+      assert.equal(await page.locator("#identity h2").getAttribute("aria-label"), "Nguyen Hoang Phuc");
+      assert.ok(await page.locator(".identity-portrait img").evaluate(img => img.naturalWidth > 0));
+    }
+    console.log(`PASS ${locale}: six widths, portrait decoding, name fit, semantic heading`);
+  }
+  await page.goto(base);
+  await page.locator(".hero-scroll").focus();
+  await page.keyboard.press("Enter");
+  await page.waitForFunction(() => document.activeElement.id === "identity");
+  await page.waitForFunction(() => document.querySelector(".status-section").textContent.includes("01"));
+  const origin = await page.evaluate(() => performance.timeOrigin);
+  await page.getByRole("link", { name: "Tiếng Việt", exact: true }).first().click();
+  await page.waitForURL("**/vi#identity");
+  assert.equal(await page.evaluate(() => performance.timeOrigin), origin);
+  assert.ok((await page.locator(".identity-biography").textContent()).startsWith("Tôi"));
+  await page.getByRole("button", { name: "Mục lục", exact: true }).click();
+  await page.locator('.index-links a[href$="#identity"]').click();
+  await page.waitForFunction(() => document.activeElement.id === "identity");
+  console.log("PASS scroll cue keyboard/focus, active index, locale/hash preservation, menu destination");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.locator(".identity-image-frame").hover();
+  assert.equal(await page.locator(".identity-portrait img").evaluate(el => getComputedStyle(el).transform), "none");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await mkdir("test-results/identity", { recursive: true });
+  await page.goto(base);
+  await page.setViewportSize({ width: 1440, height: 1100 });
+  await page.evaluate(() => window.scrollTo(0, document.getElementById("identity").offsetTop - 80));
+  await page.locator(".identity-portrait img").evaluate(img => img.decode());
+  await page.mouse.move(0, 0);
+  await page.waitForTimeout(800);
+  const captureStyle = ".site-header, .system-status, .initialization, .context-cursor, .skip-link { visibility: hidden !important; }";
+  await page.locator("#identity").screenshot({ path: "test-results/identity/desktop-1440.png", style: captureStyle });
+  await page.evaluate(() => window.scrollTo(0, document.getElementById("identity").offsetTop - 600));
+  await page.waitForTimeout(800);
+  await page.screenshot({ path: "test-results/identity/hero-to-identity-1440.png" });
+  const touch = await browser.newContext({ viewport: { width: 430, height: 932 }, hasTouch: true, isMobile: true });
+  const mobile = await touch.newPage();
+  await mobile.goto(base);
+  await mobile.locator("#identity").scrollIntoViewIfNeeded();
+  await mobile.locator(".identity-portrait img").evaluate(img => img.decode());
+  await mobile.waitForTimeout(1500);
+  await mobile.locator("#identity").screenshot({ path: "test-results/identity/mobile-430.png", style: captureStyle });
+  await touch.close();
+  const staticContext = await browser.newContext({ javaScriptEnabled: false });
+  const staticPage = await staticContext.newPage();
+  await staticPage.goto(base + "/vi");
+  assert.ok(await staticPage.locator("#identity h2").isVisible());
+  assert.ok((await staticPage.locator(".identity-biography").textContent()).startsWith("Tôi"));
+  await staticContext.close();
+  assert.deepEqual(errors, [], "console/hydration");
+  console.log("PASS reduced motion, touch capture, no-JS server content, console/hydration; screenshots saved");
+} finally { await browser.close(); }

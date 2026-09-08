@@ -1,7 +1,8 @@
-# carwyn.sec — Phase 8 Hero
+# carwyn.sec — Phase 9 Identity
 
-The global interface and Hero are implemented. Identity and all later portfolio
-sections, case studies and Security Log articles await later phases.
+The global interface, approved Hero, and photographic Identity are implemented.
+Expertise and all later portfolio sections, case studies and Security Log articles
+await later phases. See `docs/identity.md` for the portrait workflow and review notes.
 
 ## Reproduce locally
 

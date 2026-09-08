@@ -1,0 +1,45 @@
+/* A photographic pause after the black Hero. Palette is local to this section. */
+.identity {
+  --identity-paper: #e8e4dc;
+  --text-primary: #202320;
+  --text-muted: #52564f;
+  --text-subtle: #5e6259;
+  --border: #b9bcb1;
+  --accent-digital: #246773;
+  --focus: #246773;
+  background: var(--identity-paper);
+  color: var(--text-primary);
+  padding-block: clamp(3rem, 6vw, 6rem) var(--section-space);
+}
+.identity ::selection { background: #202320; color: #e8e4dc; }
+.identity-inner { width: min(calc(100% - 2 * var(--page-gutter)), var(--wide-width)); margin-inline: auto; }
+.identity-introduction { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-6); padding-bottom: var(--space-8); border-bottom: 1px solid var(--border); margin-bottom: var(--space-12); }
+.identity-introduction > p { font-size: var(--text-body-sm); }
+.identity-composition { display: grid; grid-template-columns: 1.2fr 1fr; column-gap: clamp(2rem, 5vw, 6rem); grid-template-rows: auto 1fr; }
+.identity-portrait { grid-column: 1; grid-row: 1 / 3; min-width: 0; }
+.identity-image-frame { overflow: hidden; aspect-ratio: 4 / 5; background: #543b2b; }
+.identity-image-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 36%; transition: transform var(--duration-slow) var(--ease-editorial); }
+.identity-portrait figcaption { display: flex; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-4); font-family: var(--font-technical), monospace; font-size: .6875rem; color: var(--text-subtle); }
+.identity-portrait figcaption > :last-child { white-space: nowrap; }
+.identity-name-block { grid-column: 2; padding-top: var(--space-8); }
+.identity-name { font-size: clamp(2rem, 4.5vw, 4.75rem); font-weight: 500; line-height: 1.16; letter-spacing: -.065em; }
+.identity-name span { white-space: nowrap; word-spacing: .15em; }
+.identity-field { margin-top: var(--space-6); font-size: var(--text-body-lg); color: var(--text-muted); }
+.identity-story { grid-column: 2; align-self: end; padding-bottom: var(--space-8); }
+.identity-biography { max-width: 32rem; font-size: var(--text-body-lg); line-height: 1.8; margin-block: var(--space-16) var(--space-12); }
+.identity-metadata { border-top: 1px solid var(--border); padding-top: var(--space-6); grid-template-columns: 1fr 1fr; }
+.identity-learning { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); }
+.identity-learning .status-indicator { font-size: .6875rem; gap: var(--space-2); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .identity-image-frame:hover img { transform: scale(1.025); }
+}
+@media (max-width: 47.99rem) {
+  .identity-introduction { display: grid; gap: var(--space-4); margin-bottom: var(--space-8); padding-bottom: var(--space-6); }
+  .identity-composition { grid-template-columns: 1fr; }
+  .identity-name-block { grid-column: 1; grid-row: 1; padding-top: 0; margin-bottom: var(--space-8); }
+  .identity-name { font-size: clamp(2.5rem, 9.7vw, 4.5rem); }
+  .identity-field { margin-top: var(--space-4); }
+  .identity-portrait { grid-column: 1; grid-row: 2; }
+  .identity-story { grid-column: 1; grid-row: 3; padding-bottom: 0; }
+  .identity-biography { margin-block: var(--space-8); }
+}

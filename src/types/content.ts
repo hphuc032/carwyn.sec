@@ -42,7 +42,8 @@ export interface Project {
 
 export interface Experience {
   id: string;
-  organization: string;
+  order: number;
+  organization?: string;
   kind: "technical" | "community" | "non-technical";
   state: PublicationState;
   dates?: DateRange;

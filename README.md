@@ -1,10 +1,10 @@
-# carwyn.sec — Phase 11 Selected Operations
+# carwyn.sec — Phase 12 Experience
 
-The approved Hero, Identity and Expertise are followed by Selected Operations:
-three linked project briefs with bilingual case-study routes. Detailed claims
-without evidence remain unpublished. See `docs/operations.md` for Phase 11 scope,
-validation and review links, and `docs/operations-evidence-audit.md` for provenance.
-Experience and all later sections await explicit approval.
+The approved Hero, Identity, Expertise and Selected Operations are followed by a
+two-record professional Experience chapter. It presents verified UAT testing work
+and Memory Flower honestly, with unsupported employment fields omitted. See
+`docs/experience.md` and `docs/experience-evidence-audit.md`. Achievements and all
+later sections await explicit approval.
 
 ## Reproduce locally
 

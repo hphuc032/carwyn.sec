@@ -1,8 +1,9 @@
-# carwyn.sec — Phase 9 Identity
+# carwyn.sec — Phase 10 Expertise
 
-The global interface, approved Hero, and photographic Identity are implemented.
-Expertise and all later portfolio sections, case studies and Security Log articles
-await later phases. See `docs/identity.md` for the portrait workflow and review notes.
+The global interface, approved Hero, photographic Identity, and four verified
+Expertise disciplines are implemented. Selected Operations and all later sections
+await approval. See `docs/identity.md` for the portrait workflow and
+`docs/expertise.md` for the confirmed content baseline and Phase 10 review.
 
 ## Reproduce locally
 

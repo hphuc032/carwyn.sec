@@ -21,6 +21,12 @@ try {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${locale}/${width}: overflow`);
       const geometry = await page.locator(".identity-name").evaluate(el => ({ width: el.clientWidth, scroll: el.scrollWidth }));
       assert.ok(geometry.scroll <= geometry.width + 1, `${locale}/${width}: name wraps/overflows`);
+      assert.ok(await page.locator(".identity-name span").evaluate(el => {
+        const words = el.lastChild;
+        const first = document.createRange(); first.setStart(words, 0); first.setEnd(words, 5);
+        const second = document.createRange(); second.setStart(words, 6); second.setEnd(words, 10);
+        return second.getBoundingClientRect().left - first.getBoundingClientRect().right >= parseFloat(getComputedStyle(el).fontSize) * .16;
+      }), `${locale}/${width}: visible word gap in HOANG PHUC`);
       assert.equal(await page.locator("#identity h2").getAttribute("aria-label"), "Nguyen Hoang Phuc");
       assert.ok(await page.locator(".identity-portrait img").evaluate(img => img.naturalWidth > 0));
     }

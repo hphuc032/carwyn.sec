@@ -1,7 +1,8 @@
 # Phase 6 — reusable visual foundation
 
 Scope: tokens and composable primitives only. No portfolio sections, navigation,
-cursor, GSAP timelines, or WebGL visuals. Phase 6 changes are left uncommitted.
+cursor, GSAP timelines, or WebGL visuals were included in Phase 6. The approved
+Design System was checkpointed as `8007ce8` before Phase 7 began.
 
 ## Typography and layout
 

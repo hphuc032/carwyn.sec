@@ -1,0 +1,33 @@
+import type { Locale } from "./locales";
+
+export const sectionIds = ["identity", "expertise", "operations", "experience", "achievements", "log", "contact"] as const;
+export type SectionId = (typeof sectionIds)[number];
+
+export const globalUI = {
+  en: {
+    menu: "Index", close: "Close", navigation: "Site navigation", language: "Language",
+    labels: ["Identity", "Expertise", "Operations", "Experience", "Achievements", "Log", "Contact"],
+    unavailable: "This section is not published yet.", translationUnavailable: "Translation not yet published",
+    online: "SYSTEM ONLINE", compactOnline: "ONLINE", location: "VIETNAM / UTC+7", system: "SYSTEM",
+    initializing: "INITIALIZING CARWYN.SEC", ready: "INTERFACE READY", home: "carwyn.sec — Home",
+  },
+  vi: {
+    menu: "Mục lục", close: "Đóng", navigation: "Điều hướng trang", language: "Ngôn ngữ",
+    labels: ["Giới thiệu", "Chuyên môn", "Dự án", "Kinh nghiệm", "Thành tựu", "Nhật ký", "Liên hệ"],
+    unavailable: "Mục này chưa được công bố.", translationUnavailable: "Bản dịch chưa được công bố",
+    online: "HỆ THỐNG TRỰC TUYẾN", compactOnline: "TRỰC TUYẾN", location: "VIỆT NAM / UTC+7", system: "HỆ THỐNG",
+    initializing: "KHỞI TẠO CARWYN.SEC", ready: "GIAO DIỆN SẴN SÀNG", home: "carwyn.sec — Trang chủ",
+  },
+} satisfies Record<Locale, { menu: string; close: string; navigation: string; language: string; labels: readonly string[]; unavailable: string; translationUnavailable: string; online: string; compactOnline: string; location: string; system: string; initializing: string; ready: string; home: string }>;
+
+export function publicPath(path: string) {
+  return path.replace(/^\/(en|vi)(?=\/|$)/, "") || "/";
+}
+
+// Explicit publication registry. Future content adds reviewed equivalents here.
+// Unknown equivalents remain unavailable rather than silently falling back.
+export function localizedPath(path: string, locale: Locale): string | undefined {
+  const canonical = publicPath(path);
+  if (canonical !== "/" && canonical !== "/dev/design-system") return undefined;
+  return locale === "en" ? canonical : `/vi${canonical === "/" ? "" : canonical}`;
+}

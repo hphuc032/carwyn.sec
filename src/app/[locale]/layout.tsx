@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales } from "@/i18n/locales";
 import { editorialFont, technicalFont } from "@/styles/fonts";
+import { PageShell } from "@/components/layout/PageShell";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
+  icons: { icon: "/favicon.svg" },
   title: {
     default: "carwyn.sec — Cyber Security Portfolio",
     template: "%s | carwyn.sec",
@@ -36,7 +38,7 @@ export default async function LocaleLayout({
         <a className="skip-link" href="#main-content">
           {dictionary.skipToContent}
         </a>
-        {children}
+        <PageShell locale={locale}>{children}</PageShell>
       </body>
     </html>
   );

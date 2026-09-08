@@ -1,4 +1,4 @@
-# carwyn.sec — Phase 6 design system
+# carwyn.sec — Phase 7 global UI
 
 This is the technical foundation, not the final portfolio. No visual sections,
 case studies, Security Log articles, animations, or WebGL scene are implemented.
@@ -29,6 +29,8 @@ These routes are excluded from production route discovery, not merely hidden.
 After `npm run build`, run `npm run start -- --port 3001` and
 `npm run check:routes -- http://127.0.0.1:3001 --production` to verify this boundary.
 See [Design system](docs/design-system.md) for the reusable visual vocabulary.
+See [Global UI](docs/global-ui.md) for navigation, localization, initialization,
+cursor and motion behavior. The approved Design System checkpoint is `8007ce8`.
 
 ## Boundaries
 
@@ -85,7 +87,7 @@ Next.js declares sharp itself, so it may appear as a transitive dependency.
 
 ## Deferred work
 
-Phase 7 and all portfolio sections await explicit approval. Do not interpret
+Phase 8 and all portfolio sections await explicit approval. Do not interpret
 the two-line foundation page as the final Hero or the minimal UI translation
 as approved Vietnamese portfolio copy.
 

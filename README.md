@@ -1,7 +1,7 @@
-# carwyn.sec — Phase 7 global UI
+# carwyn.sec — Phase 8 Hero
 
-This is the technical foundation, not the final portfolio. No visual sections,
-case studies, Security Log articles, animations, or WebGL scene are implemented.
+The global interface and Hero are implemented. Identity and all later portfolio
+sections, case studies and Security Log articles await later phases.
 
 ## Reproduce locally
 
@@ -31,6 +31,8 @@ After `npm run build`, run `npm run start -- --port 3001` and
 See [Design system](docs/design-system.md) for the reusable visual vocabulary.
 See [Global UI](docs/global-ui.md) for navigation, localization, initialization,
 cursor and motion behavior. The approved Design System checkpoint is `8007ce8`.
+The approved Global UI checkpoint is `f672c67`. See [Hero](docs/hero.md) for
+progressive enhancement, performance measurements and browser verification.
 
 ## Boundaries
 
@@ -41,14 +43,18 @@ cursor and motion behavior. The approved Design System checkpoint is `8007ce8`.
   containers, motion references, and stacking layers.
 - `src/types/content.ts` establishes content contracts without invented records.
 - MDX compilation is configured, but no article or conceptual slug folder exists.
-- GSAP and React Three Fiber are installed for later phases, not loaded on the page.
+- Hero text and its SVG network are server-rendered. GSAP and React Three Fiber
+  load only as eligible client enhancements; reduced motion uses the static design.
 - Foundation metadata is intentionally `noindex`; canonical URLs and release SEO
   require the real production origin and approved public content.
 
 ## Compatibility decisions
 
 Next.js 16.3.4 and React DOM 19.2.8 accept React 19.2.8. Fiber 9.7.0 requires
-React/React DOM >=19 <19.3 and Three >=0.156; Three 0.185.1 satisfies this.
+React/React DOM >=19 <19.3 and Three >=0.156. Phase 8 pins Three and its types to
+0.182.0: Fiber 9.7.0 still constructs Clock, which emits deprecation warnings in
+Three r183 onward. This is a verified runtime adjustment within the peer range,
+not a forced peer resolution or console-warning filter.
 Tailwind 4.3.3 uses matching `@tailwindcss/postcss` plus PostCSS 8.5.28.
 
 The registry's latest TypeScript was 7.0.2, but the current typescript-eslint
@@ -87,9 +93,9 @@ Next.js declares sharp itself, so it may appear as a transitive dependency.
 
 ## Deferred work
 
-Phase 8 and all portfolio sections await explicit approval. Do not interpret
-the two-line foundation page as the final Hero or the minimal UI translation
-as approved Vietnamese portfolio copy.
+Phase 9 — Identity and later sections await explicit approval. The approved
+English Hero tagline remains brand language on both locales; surrounding UI is
+localized. Basic UI translations do not imply approval of full Vietnamese copy.
 
 ## Phase 5 verification
 

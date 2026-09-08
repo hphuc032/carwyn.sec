@@ -1,5 +1,8 @@
 # Phase 7 — Global UI
 
+This records the approved Global UI checkpoint f672c67. The homepage subsequently
+received the Phase 8 Hero; see hero.md for that section and its enhancements.
+
 The server PageShell composes isolated interactive islands around server-rendered
 page content. Pages retain their own single main landmark and main-content skip
 target. The shell exposes an optional footer slot; no footer content or portfolio
@@ -100,6 +103,7 @@ Development tests also verify the bilingual Design System preview route.
 
 No Three.js, R3F, project media, portraits, CVs or MDX article content enters the
 shell. Original assets remain unchanged, ignored and outside public/. The only
-new public asset is a tiny monochrome SVG favicon. Phase 7 changes are uncommitted.
+new public asset in Phase 7 was a tiny monochrome SVG favicon. Phase 7 is committed
+as f672c67; later Hero changes are separate.
 
 Phase 8 — Hero remains blocked on explicit approval, not on a technical issue.

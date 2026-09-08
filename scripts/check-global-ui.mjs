@@ -51,6 +51,7 @@ try {
       await page.setViewportSize({ width, height: 900 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${locale} ${width} page overflow`);
       await page.getByRole("button", { name: menu, exact: true }).click();
+      await page.waitForFunction(() => document.querySelector("dialog").open);
       assert.ok(await page.locator("dialog").evaluate(el => el.open));
       assert.equal(await page.evaluate(() => document.body.style.overflow), "hidden");
       assert.ok(await page.locator("dialog").evaluate(el => el.scrollWidth <= el.clientWidth), `${locale} ${width} menu overflow`);

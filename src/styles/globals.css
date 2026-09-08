@@ -2,6 +2,7 @@
 @import "./tokens.css";
 @import "./primitives.css";
 @import "./shell.css";
+@import "./hero.css";
 
 @layer base {
   html {

@@ -13,8 +13,8 @@ async function request(path, language = "en") {
 }
 
 for (const [path, locale, message, language] of [
-  ["/", "en", "Foundation initialized.", "vi"],
-  ["/vi", "vi", "Đã khởi tạo nền tảng.", "en"],
+  ["/", "en", "UNDERSTAND SYSTEMS. DEFEND THEM.", "vi"],
+  ["/vi", "vi", "UNDERSTAND SYSTEMS. DEFEND THEM.", "en"],
 ]) {
   const { response, html } = await request(path, language);
   assert.equal(response.status, 200, `${path} must render without a redirect`);

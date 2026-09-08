@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "npm@11.9.0",
-  "engines": { "node": "24.x", "npm": "11.x" },
+  "engines": {
+    "node": "24.x",
+    "npm": "11.x"
+  },
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
@@ -20,7 +23,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "server-only": "0.0.1",
-    "three": "0.185.1"
+    "three": "0.182.0"
   },
   "devDependencies": {
     "@mdx-js/loader": "3.1.1",
@@ -30,7 +33,7 @@
     "@types/node": "24.13.3",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
-    "@types/three": "0.185.4",
+    "@types/three": "0.182.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.4",
     "postcss": "8.5.28",

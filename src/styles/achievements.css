@@ -1,0 +1,50 @@
+/* Editorial evidence register: factual status, restrained contrast, no trophy UI. */
+.achievements {
+  --achievement-surface: #0a1012;
+  --achievement-border: #344044;
+  --achievement-muted: #aeb9ba;
+  --achievement-subtle: #7f8c8e;
+  background: var(--achievement-surface);
+  color: var(--text-primary);
+  border-top: 1px solid var(--achievement-border);
+  padding-block: var(--transition-space);
+}
+.achievements-inner { width: min(calc(100% - 2 * var(--page-gutter)), var(--wide-width)); margin-inline: auto; }
+.achievements-topline { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-6); }
+.achievements-topline > span, .achievement-index, .achievement-group-heading span, .achievement-status {
+  font: var(--text-mono-label)/1.65 var(--font-technical), monospace;
+  letter-spacing: .065em;
+  text-transform: uppercase;
+  color: var(--achievement-subtle);
+}
+.achievements-intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--grid-gap); align-items: end; margin-block: var(--space-16) var(--space-24); }
+.achievements-intro h2 { max-width: 12ch; font-size: var(--text-heading-1); font-weight: 500; line-height: 1.2; letter-spacing: -.04em; }
+.achievements-intro p { max-width: 27rem; justify-self: end; color: var(--achievement-muted); font-size: var(--text-body); }
+.achievement-group + .achievement-group { margin-top: var(--space-24); }
+.achievement-group-heading { display: grid; grid-template-columns: 1fr auto; gap: var(--grid-gap); align-items: baseline; border-bottom: 1px solid var(--achievement-border); padding-bottom: var(--space-4); }
+.achievement-group-heading h3 { font: 500 var(--text-heading-3)/1.4 var(--font-editorial), sans-serif; letter-spacing: -.02em; text-transform: uppercase; }
+.achievement-group ol { list-style: none; padding: 0; margin: 0; }
+.achievement-record { display: grid; grid-template-columns: 1fr 5fr 2fr; gap: var(--grid-gap); align-items: start; padding-block: clamp(3rem, 5.5vw, 5.5rem); border-bottom: 1px solid var(--achievement-border); }
+.achievement-record > * { min-width: 0; }
+.achievement-index { padding-top: .45rem; font-variant-numeric: tabular-nums; }
+.achievement-primary h4 { max-width: 19ch; font-size: clamp(2.25rem, 4.7vw, 5rem); line-height: 1.14; letter-spacing: -.05em; font-weight: 500; text-wrap: balance; text-transform: uppercase; }
+.achievement-descriptor { margin-top: var(--space-6); color: var(--achievement-muted); font-size: var(--text-body-lg); }
+.achievement-detail { max-width: 32rem; margin-top: var(--space-6); color: var(--achievement-muted); font-size: var(--text-body-sm); line-height: 1.7; }
+.achievement-status { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); border-left: 1px solid var(--achievement-border); padding-left: var(--space-6); }
+.achievement-status strong { color: var(--text-primary); font: 500 var(--text-metadata)/1.5 var(--font-technical), monospace; letter-spacing: .055em; }
+.achievement-record[data-status="in-progress"] .achievement-status strong { color: var(--warning); }
+.achievement-record[data-status="core-team"] .achievement-status strong { color: #9bc8c4; }
+@media (max-width: 63.99rem) {
+  .achievement-record { grid-template-columns: 4rem 1fr; }
+  .achievement-status { grid-column: 2; margin-top: var(--space-4); border-left: 0; padding-left: 0; flex-direction: row; align-items: baseline; gap: var(--space-6); }
+}
+@media (max-width: 47.99rem) {
+  .achievements-topline { align-items: start; }
+  .achievements-topline > span { max-width: 9rem; text-align: right; font-size: .6875rem; }
+  .achievements-intro { grid-template-columns: 1fr; gap: var(--space-6); margin-block: var(--space-8) var(--space-16); }
+  .achievements-intro p { justify-self: start; }
+  .achievement-group + .achievement-group { margin-top: var(--space-16); }
+  .achievement-record { grid-template-columns: 1fr; gap: var(--space-6); padding-block: var(--space-12); }
+  .achievement-primary h4 { font-size: clamp(2rem, 9.5vw, 3.75rem); }
+  .achievement-status { grid-column: 1; margin-top: var(--space-2); }
+}

@@ -54,16 +54,19 @@ export interface Experience {
 
 type AchievementBase = {
   id: string;
+  order: number;
   state: PublicationState;
   organization?: string;
   date?: DateValue;
-  content: Localized<{ title: string; detail?: string }>;
+  content: Localized<{ title: string; descriptor?: string; detail?: string }>;
   evidenceLinks?: readonly PublicLink[];
 };
 
 export type Achievement = AchievementBase & (
   | { category: "certification"; status: LearningStatus }
-  | { category: "community" | "competition" | "recognition"; result?: string }
+  | { category: "community"; status: "core-team" | "participated" }
+  | { category: "competition"; status: "participated" | "top-4" }
+  | { category: "recognition"; status: "recognized" }
 );
 
 export interface Expertise {

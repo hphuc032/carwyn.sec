@@ -1,10 +1,10 @@
-# carwyn.sec — Phase 12 Experience
+# carwyn.sec — Phase 13 Achievements
 
-The approved Hero, Identity, Expertise and Selected Operations are followed by a
-two-record professional Experience chapter. It presents verified UAT testing work
-and Memory Flower honestly, with unsupported employment fields omitted. See
-`docs/experience.md` and `docs/experience-evidence-audit.md`. Achievements and all
-later sections await explicit approval.
+The approved homepage chapters are followed by a factual Achievements register.
+It publishes two verified records—AWS student community participation and CEH
+study in progress—while incomplete competition claims remain withheld. See
+`docs/achievements.md` and `docs/achievements-evidence-audit.md`. Security Log and
+all later sections await explicit approval.
 
 ## Reproduce locally
 

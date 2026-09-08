@@ -5,6 +5,7 @@
 @import "./hero.css";
 @import "./identity.css";
 @import "./expertise.css";
+@import "./operations.css";
 
 @layer base {
   html {

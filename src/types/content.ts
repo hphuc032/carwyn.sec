@@ -15,6 +15,12 @@ export type AssetRef = {
   caption?: Localized<string>;
 };
 export type PublicLink = { label: string; url: string };
+export type CaseStudySection = {
+  id: string;
+  state: PublicationState;
+  content: Localized<{ heading: string; paragraphs: readonly string[] }>;
+  evidence?: AssetRef;
+};
 
 export interface Project {
   id: string;
@@ -28,6 +34,10 @@ export interface Project {
   technologyIds?: readonly string[];
   preview?: AssetRef;
   links?: readonly PublicLink[];
+  category?: Localized<string>;
+  overview?: Localized<string>;
+  sections?: readonly CaseStudySection[];
+  visualConcept?: "access" | "assessment" | "protocol";
 }
 
 export interface Experience {

@@ -59,7 +59,7 @@ export function GlobalInterface({ locale }: { locale: Locale }) {
       </div>
       <nav aria-label={copy.navigation} className="index-links">
         {sectionIds.map((id, index) => {
-          const exists = available.includes(id);
+          const exists = available.includes(id) || (publicPath(pathname).startsWith("/operations/") && ["identity", "expertise", "operations"].includes(id));
           return <Link key={id} href={`${home}#${id}`} aria-disabled={!exists} aria-describedby={!exists ? "index-availability" : undefined}
             aria-current={active === id ? "location" : undefined} onClick={(event) => {
               if (!exists) { event.preventDefault(); return; }

@@ -1,9 +1,10 @@
-# carwyn.sec — Phase 10 Expertise
+# carwyn.sec — Phase 11 Selected Operations
 
-The global interface, approved Hero, photographic Identity, and four verified
-Expertise disciplines are implemented. Selected Operations and all later sections
-await approval. See `docs/identity.md` for the portrait workflow and
-`docs/expertise.md` for the confirmed content baseline and Phase 10 review.
+The approved Hero, Identity and Expertise are followed by Selected Operations:
+three linked project briefs with bilingual case-study routes. Detailed claims
+without evidence remain unpublished. See `docs/operations.md` for Phase 11 scope,
+validation and review links, and `docs/operations-evidence-audit.md` for provenance.
+Experience and all later sections await explicit approval.
 
 ## Reproduce locally
 

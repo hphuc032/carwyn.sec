@@ -31,11 +31,28 @@ assert.equal(new URL(englishAlias.headers.get("location"), base).pathname, "/");
 assert.equal(new URL(englishAlias.headers.get("location"), base).search, "?source=foundation");
 console.log("PASS /en: canonical redirect preserves query");
 
-for (const path of ["/fr", "/vi/missing", "/missing", "/picture/CA1A3276.JPG", "/CV/CV%20IT%20Resume.pdf"]) {
+for (const path of ["/fr", "/vi/missing", "/missing", "/operations/not-published", "/vi/operations/not-published", "/picture/CA1A3276.JPG", "/CV/CV%20IT%20Resume.pdf"]) {
   const { response } = await request(path);
   assert.equal(response.status, 404, `${path} must be unavailable`);
   console.log(`PASS ${path}: 404`);
 }
+
+for (const locale of ["en", "vi"]) {
+  for (const slug of ["secure-api-gateway", "vulnerability-assessment", "network-traffic-analysis"]) {
+    const path = `${locale === "vi" ? "/vi" : ""}/operations/${slug}`;
+    const { response, html } = await request(path);
+    assert.equal(response.status, 200, path);
+    assert.ok(html.includes(`<html lang="${locale}"`));
+    assert.ok(html.includes('id="case-title"') && html.includes('id="overview"'));
+    assert.ok(!html.includes('class="network-object"'));
+    assert.ok(!html.includes('id="results"') && !html.includes('id="architecture"'));
+    console.log(`PASS ${path}: published brief, SSR, no unsupported sections`);
+  }
+}
+const { response: sitemapResponse, html: sitemapXml } = await request("/sitemap.xml");
+assert.equal(sitemapResponse.status, 200);
+assert.ok(!sitemapXml.includes("dev/design-system") && !sitemapXml.includes("not-published"));
+console.log("PASS sitemap excludes unpublished routes");
 
 for (const path of ["/dev/design-system", "/vi/dev/design-system"]) {
   const { response, html } = await request(path);

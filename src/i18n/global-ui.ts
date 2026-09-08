@@ -1,4 +1,5 @@
 import type { Locale } from "./locales";
+import { isPublishedCase } from "@/data/project-publication";
 
 export const sectionIds = ["identity", "expertise", "operations", "experience", "achievements", "log", "contact"] as const;
 export type SectionId = (typeof sectionIds)[number];
@@ -28,6 +29,6 @@ export function publicPath(path: string) {
 // Unknown equivalents remain unavailable rather than silently falling back.
 export function localizedPath(path: string, locale: Locale): string | undefined {
   const canonical = publicPath(path);
-  if (canonical !== "/" && canonical !== "/dev/design-system") return undefined;
+  if (canonical !== "/" && canonical !== "/dev/design-system" && !(canonical.startsWith("/operations/") && isPublishedCase(canonical.slice("/operations/".length), locale))) return undefined;
   return locale === "en" ? canonical : `/vi${canonical === "/" ? "" : canonical}`;
 }

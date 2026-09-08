@@ -1,0 +1,47 @@
+## Context
+
+I have used Wireshark in network-security labs to inspect TCP/IP, DNS, HTTP, and HTTPS traffic. This field note records the analysis method I use to separate direct observations from interpretation. The portfolio source does not contain the original packet capture or a sanitized screenshot, so this is not a reconstruction of a specific session.
+
+<LogCallout label="Evidence boundary">
+  This note is grounded in hands-on protocol analysis. It does not publish packet numbers, endpoints, domains, stream identifiers, or findings that cannot be checked against an available capture.
+</LogCallout>
+
+## Begin with protocol scope
+
+I begin with broad display filters and narrow the view only after identifying which protocols are present. Four useful starting points are:
+
+```text
+dns
+tcp
+http
+tls
+```
+
+A filter selects packets Wireshark can classify; it does not prove that a particular application action occurred. I keep the capture context, visible fields, and any conclusion separate in my notes.
+
+## Plaintext HTTP and encrypted HTTPS
+
+When HTTP is unencrypted and Wireshark recognizes the protocol, the request line, method, headers, response status, and sometimes the body may be directly visible. I would report those values only when the dissector actually exposes them in the capture.
+
+HTTPS changes that boundary. Without session keys or another valid decryption setup, application content remains encrypted. A capture can still expose transport and session metadata such as endpoints, ports, packet direction, timing, lengths, TCP flags, and TLS records. It cannot justify a claim about a URL path, request body, credential, cookie, or response content hidden inside TLS Application Data.
+
+<LogCallout label="Limitation">
+  Seeing TLS Application Data confirms encrypted records were transported. It does not reveal the HTTP message inside those records.
+</LogCallout>
+
+## Observed directly or interpreted
+
+<table>
+  <caption>Evidence boundary used during traffic review</caption>
+  <thead><tr><th scope="col">Direct observation</th><th scope="col">Interpretation boundary</th></tr></thead>
+  <tbody>
+    <tr><td>Protocol labels and fields exposed by Wireshark</td><td>A label alone does not establish user intent or application behavior</td></tr>
+    <tr><td>Packet timing, length, direction, and TCP control flags</td><td>Timing alone does not establish the cause of delay or failure</td></tr>
+    <tr><td>DNS names when a visible DNS message contains them</td><td>A name should not be assigned to encrypted traffic without supporting correlation</td></tr>
+    <tr><td>Plaintext HTTP fields when they are actually dissected</td><td>Encrypted HTTP content cannot be inferred from TLS payload bytes</td></tr>
+  </tbody>
+</table>
+
+## What I learned
+
+Traffic analysis is most credible when every sentence stays within the evidence. Wireshark can make protocol structure visible, but encryption and missing capture context create firm limits. The useful habit is to label what the packet data shows, what surrounding behavior suggests, and what remains unknown.

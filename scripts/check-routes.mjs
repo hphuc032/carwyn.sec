@@ -31,7 +31,7 @@ assert.equal(new URL(englishAlias.headers.get("location"), base).pathname, "/");
 assert.equal(new URL(englishAlias.headers.get("location"), base).search, "?source=foundation");
 console.log("PASS /en: canonical redirect preserves query");
 
-for (const path of ["/fr", "/vi/missing", "/missing", "/operations/not-published", "/vi/operations/not-published", "/picture/CA1A3276.JPG", "/CV/CV%20IT%20Resume.pdf"]) {
+for (const path of ["/fr", "/vi/missing", "/missing", "/operations/not-published", "/vi/operations/not-published", "/log/not-published", "/vi/log/not-published", "/picture/CA1A3276.JPG", "/CV/CV%20IT%20Resume.pdf"]) {
   const { response } = await request(path);
   assert.equal(response.status, 404, `${path} must be unavailable`);
   console.log(`PASS ${path}: 404`);
@@ -47,6 +47,22 @@ for (const locale of ["en", "vi"]) {
     assert.ok(!html.includes('class="network-object"'));
     assert.ok(!html.includes('id="results"') && !html.includes('id="architecture"'));
     console.log(`PASS ${path}: published brief, SSR, no unsupported sections`);
+  }
+}
+
+const logSlug = "analyzing-http-and-https-traffic-with-wireshark";
+for (const locale of ["en", "vi"]) {
+  const prefix = locale === "vi" ? "/vi" : "";
+  for (const [path, marker] of [
+    [`${prefix}/log`, 'class="log-index"'],
+    [`${prefix}/log/${logSlug}`, "TLS Application Data"],
+  ]) {
+    const { response, html } = await request(path);
+    assert.equal(response.status, 200, path);
+    assert.ok(html.includes(`<html lang="${locale}"`), `${path} document language`);
+    assert.ok(html.includes(marker), `${path} server-rendered Security Log content`);
+    assert.ok(!html.includes('class="network-object"') && !html.includes("<canvas"), `${path} excludes homepage WebGL`);
+    console.log(`PASS ${path}: published Security Log SSR without WebGL`);
   }
 }
 const { response: sitemapResponse, html: sitemapXml } = await request("/sitemap.xml");

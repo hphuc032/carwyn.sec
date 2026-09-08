@@ -1,0 +1,47 @@
+## Bối cảnh
+
+Tôi đã sử dụng Wireshark trong các bài lab an toàn mạng để kiểm tra lưu lượng TCP/IP, DNS, HTTP và HTTPS. Ghi chép này trình bày phương pháp tôi dùng để tách biệt quan sát trực tiếp với phần diễn giải. Mã nguồn portfolio không có tệp bắt gói ban đầu hoặc ảnh chụp đã được làm sạch, vì vậy đây không phải là bản dựng lại của một phiên cụ thể.
+
+<LogCallout label="Giới hạn bằng chứng">
+  Nội dung này dựa trên quá trình thực hành phân tích giao thức. Bài viết không công bố số gói tin, điểm cuối, tên miền, mã luồng hoặc kết luận không thể kiểm tra bằng một bản ghi lưu lượng hiện có.
+</LogCallout>
+
+## Bắt đầu từ phạm vi giao thức
+
+Tôi bắt đầu với các bộ lọc hiển thị rộng và chỉ thu hẹp sau khi xác định những giao thức có mặt. Bốn điểm bắt đầu hữu ích là:
+
+```text
+dns
+tcp
+http
+tls
+```
+
+Bộ lọc chọn các gói tin mà Wireshark có thể phân loại; nó không chứng minh một hành động ứng dụng cụ thể đã xảy ra. Trong ghi chép, tôi tách riêng bối cảnh bắt gói, trường dữ liệu nhìn thấy và kết luận.
+
+## HTTP dạng rõ và HTTPS đã mã hóa
+
+Khi HTTP không được mã hóa và Wireshark nhận diện được giao thức, dòng yêu cầu, phương thức, header, trạng thái phản hồi và đôi khi phần thân có thể được quan sát trực tiếp. Tôi chỉ ghi nhận các giá trị đó khi bộ phân tích giao thức thực sự hiển thị chúng trong bản ghi lưu lượng.
+
+HTTPS thay đổi giới hạn này. Khi không có khóa phiên hoặc một thiết lập giải mã hợp lệ khác, nội dung ứng dụng vẫn được mã hóa. Bản ghi vẫn có thể cho thấy metadata của tầng vận chuyển và phiên, chẳng hạn điểm cuối, cổng, hướng gói tin, thời gian, độ dài, cờ TCP và các bản ghi TLS. Những dữ liệu đó không đủ để khẳng định đường dẫn URL, nội dung yêu cầu, thông tin đăng nhập, cookie hoặc nội dung phản hồi nằm trong TLS Application Data.
+
+<LogCallout label="Hạn chế">
+  Việc nhìn thấy TLS Application Data xác nhận các bản ghi mã hóa đã được truyền. Nó không tiết lộ thông điệp HTTP nằm bên trong những bản ghi đó.
+</LogCallout>
+
+## Quan sát trực tiếp và diễn giải
+
+<table>
+  <caption>Giới hạn bằng chứng khi xem xét lưu lượng</caption>
+  <thead><tr><th scope="col">Quan sát trực tiếp</th><th scope="col">Giới hạn diễn giải</th></tr></thead>
+  <tbody>
+    <tr><td>Nhãn giao thức và các trường do Wireshark hiển thị</td><td>Nhãn giao thức không tự chứng minh ý định người dùng hoặc hành vi ứng dụng</td></tr>
+    <tr><td>Thời gian, độ dài, hướng gói tin và cờ điều khiển TCP</td><td>Thời gian không tự xác định nguyên nhân của độ trễ hoặc lỗi</td></tr>
+    <tr><td>Tên DNS khi thông điệp DNS nhìn thấy có chứa tên đó</td><td>Không nên gán tên cho lưu lượng mã hóa nếu thiếu dữ liệu tương quan</td></tr>
+    <tr><td>Trường HTTP dạng rõ khi chúng thực sự được phân tích</td><td>Không thể suy ra nội dung HTTP đã mã hóa từ các byte tải TLS</td></tr>
+  </tbody>
+</table>
+
+## Điều tôi rút ra
+
+Phân tích lưu lượng đáng tin cậy nhất khi từng câu đều nằm trong giới hạn của bằng chứng. Wireshark có thể làm rõ cấu trúc giao thức, nhưng mã hóa và việc thiếu bối cảnh bắt gói tạo ra những giới hạn chắc chắn. Thói quen hữu ích là ghi rõ dữ liệu gói tin cho thấy điều gì, hành vi xung quanh gợi ý điều gì và điều gì vẫn chưa biết.

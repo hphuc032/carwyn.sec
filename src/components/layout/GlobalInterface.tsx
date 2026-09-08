@@ -15,12 +15,14 @@ export function GlobalInterface({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const home = locale === "en" ? "/" : "/vi";
   const { available, active } = useSectionIndex(pathname);
+  const routeActive = publicPath(pathname).startsWith("/log") ? "log" : undefined;
+  const currentActive = active ?? routeActive;
   const reduced = useReducedMotion();
   const [open, setOpen] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const navigationFrame = useRef(0);
-  const activeIndex = active ? sectionIds.indexOf(active) : -1;
+  const activeIndex = currentActive ? sectionIds.indexOf(currentActive) : -1;
   useEffect(() => () => cancelAnimationFrame(navigationFrame.current), []);
 
   useEffect(() => {
@@ -59,9 +61,9 @@ export function GlobalInterface({ locale }: { locale: Locale }) {
       </div>
       <nav aria-label={copy.navigation} className="index-links">
         {sectionIds.map((id, index) => {
-          const exists = available.includes(id) || (publicPath(pathname).startsWith("/operations/") && ["identity", "expertise", "operations"].includes(id));
+          const exists = available.includes(id) || (routeActive === "log" && id === "log") || (publicPath(pathname).startsWith("/operations/") && ["identity", "expertise", "operations"].includes(id));
           return <Link key={id} href={`${home}#${id}`} aria-disabled={!exists} aria-describedby={!exists ? "index-availability" : undefined}
-            aria-current={active === id ? "location" : undefined} onClick={(event) => {
+            aria-current={currentActive === id ? "location" : undefined} onClick={(event) => {
               if (!exists) { event.preventDefault(); return; }
               if (publicPath(pathname) !== "/") { setOpen(false); return; }
               event.preventDefault();

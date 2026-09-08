@@ -1,10 +1,10 @@
-# carwyn.sec — Phase 13 Achievements
+# carwyn.sec — Phase 14 Security Log
 
-The approved homepage chapters are followed by a factual Achievements register.
-It publishes two verified records—AWS student community participation and CEH
-study in progress—while incomplete competition claims remain withheld. See
-`docs/achievements.md` and `docs/achievements-evidence-audit.md`. Security Log and
-all later sections await explicit approval.
+The approved homepage chapters now lead into a bilingual Security Log with one
+reviewed MDX field note, a technical archive index, and explicit publication
+routes. The article documents Wireshark analysis methodology without reconstructing
+missing capture evidence. See `docs/security-log.md` and
+`docs/security-log-evidence-audit.md`. Terminal and later sections await approval.
 
 ## Reproduce locally
 

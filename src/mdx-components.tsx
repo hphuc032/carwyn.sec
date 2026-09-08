@@ -1,6 +1,6 @@
 import type { MDXComponents } from "mdx/types";
+import { LogCallout } from "@/components/log/LogCallout";
 
-// Semantic MDX elements remain native until the approved article design phase.
 export function useMDXComponents(components: MDXComponents): MDXComponents {
-  return components;
+  return { LogCallout, ...components };
 }

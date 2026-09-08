@@ -96,9 +96,11 @@ export interface Profile {
 
 export interface SecurityLogEntry {
   id: string;
+  logNumber: string;
   slug: string;
   state: PublicationState;
-  category: string;
+  kind: "field-note" | "lab" | "analysis";
+  category: Localized<string>;
   publishedAt?: DateValue;
   updatedAt?: DateValue;
   content: Localized<{ title: string; excerpt: string }>;

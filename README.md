@@ -1,4 +1,4 @@
-# carwyn.sec — Phase 5 foundation
+# carwyn.sec — Phase 6 design system
 
 This is the technical foundation, not the final portfolio. No visual sections,
 case studies, Security Log articles, animations, or WebGL scene are implemented.
@@ -22,7 +22,13 @@ With the server running, `npm run check:routes` verifies both locales,
 canonical redirection, unknown routes, and non-public original assets.
 The type-check command generates Next.js route types before `tsc --noEmit`, so
 it works on a clean checkout before a production build. Lint runs separately
-from the build. No Git commit has been requested.
+from the build. The approved foundation baseline is commit `5f391ae`.
+
+Development specimens: `/dev/design-system` and `/vi/dev/design-system`.
+These routes are excluded from production route discovery, not merely hidden.
+After `npm run build`, run `npm run start -- --port 3001` and
+`npm run check:routes -- http://127.0.0.1:3001 --production` to verify this boundary.
+See [Design system](docs/design-system.md) for the reusable visual vocabulary.
 
 ## Boundaries
 
@@ -58,10 +64,12 @@ packages as direct application dependencies to silence npm's tree output.
 
 ## Fonts and private assets
 
-No licensed font binaries were present locally. The site uses temporary Arial
-and Consolas system stacks. Be Vietnam Pro and IBM Plex Mono remain the approved
-final families; configure `next/font/local` only after obtaining verified licensed
-WOFF2 assets with Vietnamese coverage. Builds do not fetch fonts from the network.
+No licensed font binaries were present locally. Phase 6 uses `next/font/google`
+for Be Vietnam Pro (400/500/600/700) and IBM Plex Mono (400/500), normal style,
+with Latin and Vietnamese subsets. Next.js fetches official Google font assets
+at build time and self-hosts them; browsers do not request Google font services.
+Clean builds require access to Google's font endpoints. Metric-adjusted fallbacks,
+preloading and `display: swap` limit loading shifts.
 
 All originals in `picture/` and `CV/` are preserved, ignored by Git, and outside
 the public asset tree. Portraits are 6000 x 4000; CA1A3265.JPG and CA1A3276.JPG
@@ -77,7 +85,7 @@ Next.js declares sharp itself, so it may appear as a transitive dependency.
 
 ## Deferred work
 
-Phase 6 and all portfolio sections await explicit approval. Do not interpret
+Phase 7 and all portfolio sections await explicit approval. Do not interpret
 the two-line foundation page as the final Hero or the minimal UI translation
 as approved Vietnamese portfolio copy.
 

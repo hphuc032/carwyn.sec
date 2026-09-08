@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 const base = process.argv[2] ?? "http://127.0.0.1:3000";
+const production = process.argv.includes("--production");
 
 async function request(path, language = "en") {
   const response = await fetch(new URL(path, base), {
@@ -34,4 +35,11 @@ for (const path of ["/fr", "/vi/missing", "/missing", "/picture/CA1A3276.JPG", "
   const { response } = await request(path);
   assert.equal(response.status, 404, `${path} must be unavailable`);
   console.log(`PASS ${path}: 404`);
+}
+
+for (const path of ["/dev/design-system", "/vi/dev/design-system"]) {
+  const { response, html } = await request(path);
+  assert.equal(response.status, production ? 404 : 200, `${path} preview boundary`);
+  if (!production) assert.ok(html.includes('content="noindex, nofollow"'));
+  console.log(`PASS ${path}: ${response.status}, ${production ? "excluded from production" : "development specimen"}`);
 }

@@ -1,0 +1,30 @@
+.design-specimen { padding-block: var(--space-12) var(--section-space); }
+.specimen-topline { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-4); margin-block-end: var(--space-12); }
+.specimen-locale-links, .specimen-contents { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); }
+.specimen-header { padding-block-end: var(--space-8); }
+.specimen-header h1 { margin-block: var(--space-6); max-width: 18ch; }
+.specimen-intro { max-width: 65ch; }
+.specimen-font-report { min-height: 3rem; padding-block: var(--space-4); color: var(--text-subtle); font-family: var(--font-technical), monospace; font-size: var(--text-mono-label); font-variant-numeric: tabular-nums; }
+.specimen-section { padding-block: var(--section-space); scroll-margin-block-start: var(--space-8); }
+.specimen-section > h2 { margin-block: var(--space-6) var(--space-8); max-width: 26ch; }
+.specimen-type-list { margin-block-start: var(--space-12); }
+.specimen-type-row { padding-block: var(--space-8); border-top: 1px solid var(--border); }
+.specimen-type-row > :last-child { margin-block-start: var(--space-6); }
+.specimen-prose { max-width: 66ch; }
+.specimen-language-proof { display: grid; gap: var(--space-6); background: var(--surface); padding: clamp(1.5rem, 3vw, 3rem); margin-block-start: var(--space-12); border-inline-start: 1px solid var(--border-active); }
+.specimen-swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); gap: var(--space-8); margin-block: var(--space-12); }
+.specimen-swatch { display: grid; gap: var(--space-2); }
+.specimen-color { display: block; height: 3rem; border: 1px solid var(--border); margin-block-end: var(--space-2); }
+.specimen-labels { display: grid; gap: var(--space-6); margin-block: var(--space-12); }
+.specimen-statuses, .specimen-actions { display: flex; flex-wrap: wrap; gap: var(--space-6) var(--space-8); margin-block: var(--space-12); }
+.specimen-link-list { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-6); }
+.specimen-feedback { min-height: 2rem; margin-block: var(--space-4); font-family: var(--font-technical), monospace; font-size: var(--text-metadata); }
+.specimen-grid { margin-block: var(--space-8); }
+.specimen-grid-cell { padding: var(--space-6) var(--space-2); background: var(--surface-raised); color: var(--text-subtle); text-align: center; font: var(--text-mono-label) var(--font-technical), monospace; }
+.specimen-space-list { display: grid; gap: var(--space-4); margin-block: var(--space-12); }
+.specimen-space-list > div { display: grid; grid-template-columns: 5rem 1fr; align-items: center; gap: var(--space-4); }
+.specimen-space-list > div > span:last-child { display: block; max-width: 100%; height: var(--space-2); background: var(--border-active); }
+.specimen-bleed { background: var(--surface-raised); padding-block: var(--space-12); }
+.specimen-bleed p { margin-block-start: var(--space-4); }
+.specimen-reading { padding-block-start: var(--space-16); }
+.specimen-reading p { margin-block: var(--space-6); }

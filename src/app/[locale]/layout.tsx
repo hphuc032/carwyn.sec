@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales } from "@/i18n/locales";
+import { editorialFont, technicalFont } from "@/styles/fonts";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ export default async function LocaleLayout({
   const dictionary = getDictionary(locale);
 
   return (
-    <html lang={locale} className="dark">
+    <html lang={locale} className={`dark ${editorialFont.variable} ${technicalFont.variable}`}>
       <body>
         <a className="skip-link" href="#main-content">
           {dictionary.skipToContent}

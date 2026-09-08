@@ -1,13 +1,15 @@
 @import "tailwindcss";
 @import "./tokens.css";
+@import "./primitives.css";
 
 @layer base {
   html {
     color-scheme: dark;
-    background: var(--color-canvas);
-    color: var(--color-primary);
-    font-family: var(--font-sans);
-    line-height: 1.6;
+    background: var(--background);
+    color: var(--text-primary);
+    font-family: var(--font-editorial), sans-serif;
+    line-height: 1.7;
+    font-synthesis: none;
   }
 
   body {
@@ -16,18 +18,21 @@
   }
 
   ::selection {
-    color: var(--color-canvas);
-    background: var(--color-cyber);
+    color: var(--background);
+    background: var(--selection);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-cyber);
+    outline: 2px solid var(--focus);
     outline-offset: 4px;
   }
 
   a {
     text-underline-offset: 0.2em;
   }
+
+  button, input, select, textarea { font: inherit; }
+  h1, h2, h3, h4, h5, h6, p, dd { overflow-wrap: break-word; }
 
   img, svg, video, canvas {
     max-width: 100%;
@@ -40,8 +45,8 @@
   left: 1rem;
   z-index: var(--z-skip-link);
   padding: 0.75rem 1rem;
-  background: var(--color-primary);
-  color: var(--color-canvas);
+  background: var(--text-primary);
+  color: var(--background);
   transform: translateY(calc(-100% - 2rem));
 }
 

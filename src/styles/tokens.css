@@ -1,39 +1,45 @@
-@theme {
-  --color-canvas: #050505;
-  --color-surface: #0b0d0f;
-  --color-primary: #f5f5f5;
-  --color-secondary: #b6bdc3;
-  --color-muted: #88939b;
-  --color-border: #252c31;
-  --color-control-border: #65717a;
-  --color-cyber: #00ffb2;
-  --color-digital: #00c8ff;
-  --color-alert: #ff3b5c;
-
-  /* Temporary, Vietnamese-capable system stacks; no unverified font binaries. */
-  --font-sans: Arial, "Helvetica Neue", sans-serif;
-  --font-mono: Consolas, "Liberation Mono", monospace;
-
-  --spacing: 0.25rem;
-  --spacing-section-mobile: 5rem;
-  --spacing-section-desktop: 9rem;
-  --container-site: 90rem;
-  --container-reading: 44rem;
-
-  --text-label: 0.8125rem;
-  --text-label--line-height: 1.5;
-  --text-body: 1.0625rem;
-  --text-body--line-height: 1.6;
-  --text-heading: 2rem;
-  --text-heading--line-height: 1.25;
-  --text-display: clamp(2.25rem, 6vw, 7.5rem);
-  --text-display--line-height: 1.15;
-
-  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-ui: cubic-bezier(0.2, 0, 0, 1);
-}
-
+/* Canonical values. Accents mark interaction, not large surfaces. */
 :root {
+  --background: #050505;
+  --surface: #0b0d0f;
+  --surface-raised: #12171b;
+  --surface-hover: #1b2228;
+  --text-primary: #f5f5f5;
+  --text-muted: #b6bdc3;
+  --text-subtle: #88939b;
+  --border: #30383f;
+  --border-active: #74818b;
+  --accent-cyber: #00ffb2;
+  --accent-digital: #00c8ff;
+  --alert: #ff3b5c;
+  --warning: #e5be76;
+  --overlay: rgb(5 5 5 / 88%);
+  --selection: var(--accent-cyber);
+  --focus: var(--accent-cyber);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-36: 9rem;
+  --space-48: 12rem;
+  --page-gutter: clamp(1.5rem, 4vw, 4.5rem);
+  --grid-gap: clamp(1rem, 2vw, 2rem);
+  --section-space: clamp(4.5rem, 9vw, 9rem);
+  --transition-space: clamp(6rem, 12vw, 12rem);
+  --content-width: 80rem;
+  --wide-width: 90rem;
+  --reading-width: 44rem;
+  --duration-fast: 160ms;
+  --duration-medium: 350ms;
+  --duration-slow: 700ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
   --z-base: 0;
   --z-status: 10;
   --z-header: 20;
@@ -41,8 +47,56 @@
   --z-cursor: 40;
   --z-intro: 50;
   --z-skip-link: 60;
-  --duration-ui: 160ms;
-  --duration-menu: 300ms;
-  --duration-enter: 550ms;
-  --duration-image: 800ms;
+}
+
+@theme inline {
+  --color-canvas: var(--background);
+  --color-surface: var(--surface);
+  --color-raised: var(--surface-raised);
+  --color-hover: var(--surface-hover);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-muted);
+  --color-muted: var(--text-subtle);
+  --color-border: var(--border);
+  --color-control-border: var(--border-active);
+  --color-cyber: var(--accent-cyber);
+  --color-digital: var(--accent-digital);
+  --color-alert: var(--alert);
+  --font-sans: var(--font-editorial);
+  --font-mono: var(--font-technical);
+  --container-site: var(--wide-width);
+  --container-reading: var(--reading-width);
+}
+
+@theme {
+  --spacing: 0.25rem;
+  --text-display-xl: clamp(3rem, 0.9rem + 7.2vw, 8rem);
+  --text-display-xl--line-height: 1.2;
+  --text-display-xl--letter-spacing: -0.045em;
+  --text-display-lg: clamp(2.5rem, 1rem + 5vw, 6rem);
+  --text-display-lg--line-height: 1.22;
+  --text-display-lg--letter-spacing: -0.04em;
+  --text-heading-1: clamp(2.125rem, 1.4rem + 2.5vw, 4.5rem);
+  --text-heading-1--line-height: 1.25;
+  --text-heading-1--letter-spacing: -0.035em;
+  --text-heading-2: clamp(1.75rem, 1.25rem + 1.8vw, 3rem);
+  --text-heading-2--line-height: 1.3;
+  --text-heading-2--letter-spacing: -0.025em;
+  --text-heading-3: clamp(1.375rem, 1.15rem + 0.8vw, 1.875rem);
+  --text-heading-3--line-height: 1.4;
+  --text-heading-3--letter-spacing: -0.015em;
+  --text-body-lg: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --text-body-lg--line-height: 1.65;
+  --text-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --text-body--line-height: 1.7;
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.65;
+  --text-metadata: 0.875rem;
+  --text-metadata--line-height: 1.65;
+  --text-mono-label: 0.8125rem;
+  --text-mono-label--line-height: 1.65;
+  --text-mono-label--letter-spacing: 0.065em;
+  /* Phase 5 placeholder alias; new compositions use named scale steps. */
+  --text-heading: var(--text-heading-2);
+  --text-heading--line-height: var(--text-heading-2--line-height);
 }

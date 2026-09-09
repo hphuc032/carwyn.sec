@@ -9,6 +9,7 @@
 @import "./experience.css";
 @import "./achievements.css";
 @import "./security-log.css";
+@import "./terminal.css";
 
 @layer base {
   html {

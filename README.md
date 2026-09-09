@@ -1,10 +1,9 @@
-# carwyn.sec — Phase 14 Security Log
+# carwyn.sec — Phase 15 Terminal
 
-The approved homepage chapters now lead into a bilingual Security Log with one
-reviewed MDX field note, a technical archive index, and explicit publication
-routes. The article documents Wireshark analysis methodology without reconstructing
-missing capture evidence. See `docs/security-log.md` and
-`docs/security-log-evidence-audit.md`. Terminal and later sections await approval.
+The approved homepage chapters now end with a bilingual, predefined portfolio
+Terminal. Nine safe commands expose the existing published catalogs without shell,
+filesystem, process, or network execution. See `docs/terminal.md`. Contact, CV and
+later work await explicit approval.
 
 ## Reproduce locally
 

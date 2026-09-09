@@ -18,6 +18,7 @@ export function ContextCursor() {
       if (!media.matches || event.pointerType !== "mouse") { hide(); return; }
       x = event.clientX; y = event.clientY;
       const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest("[data-native-cursor]")) { hide(); return; }
       const context = target?.closest<HTMLElement>("[data-cursor]")?.dataset.cursor;
       const label = context && ["view", "open", "scan"].includes(context) ? context.toUpperCase() : "";
       element.textContent = label;

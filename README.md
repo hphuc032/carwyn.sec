@@ -1,9 +1,9 @@
-# carwyn.sec — Phase 15 Terminal
+# carwyn.sec — Phase 16 Contact + CV + End System
 
-The approved homepage chapters now end with a bilingual, predefined portfolio
-Terminal. Nine safe commands expose the existing published catalogs without shell,
-filesystem, process, or network execution. See `docs/terminal.md`. Contact, CV and
-later work await explicit approval.
+The approved homepage now closes with a bilingual Contact chapter, a sanitized
+public CV derivative and a restrained End System footer. The Terminal `contact`
+command reads the same canonical public-contact catalog and links to the final
+section. See `docs/contact.md` and `docs/terminal.md`.
 
 ## Reproduce locally
 
@@ -86,18 +86,19 @@ the public asset tree. Portraits are 6000 x 4000; CA1A3265.JPG and CA1A3276.JPG
 have EXIF orientation 8, and CA1A3266.JPG has orientation 1. Future derivatives
 must bake orientation and remove GPS metadata without altering originals.
 
-`CV IT Resume.pdf` is the selected candidate, pending content reconciliation.
-No PDF or portrait has been copied into a public location.
+`CV IT Resume.pdf` remains an ignored, unchanged source. The only public PDF is a
+reviewed derivative at `/cv/nguyen-hoang-phuc-cv.pdf`; it omits the phone number,
+city-level location, old CTF encouragement-prize wording and expanded AWS claims.
 
 No direct `sharp` dependency was added. No preprocessing is required in this
 phase; the available Python/Pillow workflow can produce future web derivatives.
 Next.js declares sharp itself, so it may appear as a transitive dependency.
 
-## Deferred work
+## Localization boundary
 
-Phase 9 — Identity and later sections await explicit approval. The approved
-English Hero tagline remains brand language on both locales; surrounding UI is
-localized. Basic UI translations do not imply approval of full Vietnamese copy.
+The approved English Hero tagline and Contact statement remain brand language on
+both locales; surrounding UI is localized. Proper names, technical identifiers,
+email and URLs are unchanged.
 
 ## Phase 5 verification
 

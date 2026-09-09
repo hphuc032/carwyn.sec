@@ -1,79 +1,50 @@
-# Phase 13 — Achievements
-
-## Git checkpoint
-
-`5dda061` — `feat: build carwyn.sec experience section`. The checkpoint contains
-only the approved Phase 12 Experience implementation, data, evidence audit,
-documentation, navigation integration, and validation. The two unrelated root
-PNGs remain untracked.
+# Phase 13 Achievements - factual update
 
 ## Published records
 
 | Category | Record | Status | Published facts | Withheld |
 | --- | --- | --- | --- | --- |
 | Community | AWS Student Builder Group HCMUTE | Core Team | Organization and community role | Date, responsibilities, leadership level, outcomes, employment and AWS credentials |
+| Competitions | Cybersecurity Student Competition 2025 | Qualifying Round Participant | Participation level, 2025 event identity, NCA organizer and public event URL | Finalist, winner, award, placement and qualification for a final |
+| Recognition | HCMUTE CTF 2025 | Top 4 | Result and official event wording | Individual/team attribution, champion/finalist language and award category |
 | Certifications | CEH / Certified Ethical Hacker | In Progress | CEH material is currently being studied | Completion, date, credential, score, certificate and expected completion |
 
-Top 4 at HCMUTE and CSCV qualifying-round participation remain in REVIEW state.
-They are excluded from public output because their result/attribution evidence
-does not meet the publication threshold. See `achievements-evidence-audit.md`.
+All four records and all four approved categories are now published in English
+and Vietnamese. The prior review states for the competition and Top 4 records
+were superseded by the user's explicit factual confirmation.
 
 ## Composition
 
-06 / ACHIEVEMENTS returns from the light Experience field to a deep mineral
-surface. The shift marks a new chapter without matching the visual intensity of
-Operations. A wide editorial register uses category rules, global record indices,
-large text identities and explicit human-readable status columns. There are no
-trophies, medals, badges, certificate thumbnails, cards or celebratory motion.
+The existing editorial register is unchanged: category rules, global indices,
+large text identities and explicit status columns remain the visual language.
+The supplied CSCV URL appears as one restrained event link. There are no cards,
+trophies, badges, certificate thumbnails or celebratory animation.
 
-Only Community and Certifications render. Desktop distributes index, identity
-and status over the editorial grid. Tablet moves status beneath the identity;
-mobile stacks each record while retaining category separation and generous
-spacing. Long organization names remain prominent and wrap intentionally.
+Desktop distributes index, identity and status over the editorial grid. Tablet
+moves status beneath the identity; mobile stacks each record while retaining
+category separation and readable organization/event names.
 
 ## Data and publication architecture
 
-`src/data/achievements.ts` is the sole factual catalog. It contains two published
-records and two review records. The module is server-only. `publishedAchievements`
-filters on record publication state, requires approved locale copy, requires an
-organization for published community records, and requires public evidence if a
-certification is ever marked completed.
+`src/data/achievements.ts` remains the sole factual catalog and is server-only.
+`publishedAchievements` filters publication state and requires approved locale
+copy. Published competitions additionally require an organizer, verified year
+and public evidence link; published recognition requires a year and event
+identity. Category-specific status types prevent Top 4 from being categorized as
+competition participation.
 
-The `Achievement` union now expresses category-specific statuses: community,
-competition, recognition and certification cannot silently share arbitrary
-status strings. One server component renders both locales. Proper names and CEH
-remain unchanged; category, introduction, detail and in-progress status copy are
-localized without stronger Vietnamese claims.
+One server component renders both locales. Proper names remain unchanged while
+descriptions, organizer wording and participation status are localized without
+stronger claims.
 
-## Accessibility and interaction
+## Accessibility and performance
 
-The section uses a labelled section, h2 introduction, nested category sections,
-h3 category headings, ordered record lists and h4 record identities. Status is
-visible text and never depends on color. All factual content is visible without
-hover or JavaScript. The section adds no links because no verified safe public
-credential/event link belongs to an individual record.
+The section retains semantic category headings and ordered record lists. Status
+is visible text and does not depend on color. The CSCV link is a normal keyboard
+accessible anchor with safe new-tab semantics. All facts remain available without
+hover, JavaScript or motion.
 
-There is no cursor override, accordion, carousel, client state or animation.
-Reduced-motion users receive the same static register. Existing keyboard focus
-and Index navigation target `#achievements`; the global status reports navigation
-index 05 while the editorial section label remains 06.
-
-## Performance and validation
-
-The implementation adds one server component and one 4,086-byte stylesheet
-(1,185 bytes gzip). It loads no images, WebGL, GSAP timeline, client island,
-dependency or public asset. Browser validation covers EN/VI at 375, 430, 768,
-1024, 1440 and 1920; intentional
-wrapping, overflow, status text, category filtering, keyboard navigation,
-focus-visible, locale/hash switching, touch, reduced motion, no-JavaScript output,
-console/hydration and CLS. Production browser measurement reports CLS
-`0.00002311935424804687`.
-
-Review: http://localhost:3009/#achievements and
-http://localhost:3009/vi#achievements. Phase 13 remains uncommitted for approval.
-
-## Phase 14 entry point
-
-After explicit approval, audit available Security Log topics and MDX readiness,
-then build the bilingual index/article foundation without turning unpublished
-notes into public articles.
+The update adds no client island, image, WebGL, dependency or animation. Browser
+validation covers EN/VI at 375, 430, 768, 1024, 1440 and 1920, plus keyboard
+navigation, focus, locale/hash switching, touch, reduced motion, no-JavaScript
+output, console/hydration and layout shift.

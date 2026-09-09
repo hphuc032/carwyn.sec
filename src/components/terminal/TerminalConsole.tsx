@@ -1,11 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { terminalCommands, type TerminalCommand, type TerminalContent, type TerminalResponse } from "./types";
 
 const MAX_HISTORY = 50;
 type HistoryRecord = { id: number; command: string; response: TerminalResponse };
+
+function navigateHash(event: MouseEvent<HTMLAnchorElement>, href: string) {
+  const targetUrl = new URL(href, window.location.href);
+  if (targetUrl.origin !== window.location.origin || targetUrl.pathname !== window.location.pathname || !targetUrl.hash) return;
+  const destination = document.getElementById(decodeURIComponent(targetUrl.hash.slice(1)));
+  if (!destination) return;
+  event.preventDefault();
+  window.history.pushState(null, "", targetUrl.hash);
+  destination.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+  if (!destination.hasAttribute("tabindex")) destination.setAttribute("tabindex", "-1");
+  destination.focus({ preventScroll: true });
+}
 
 function Response({ response }: { response: TerminalResponse }) {
   return <div className="terminal-response">
@@ -15,7 +27,7 @@ function Response({ response }: { response: TerminalResponse }) {
       {entry.href ? <Link href={entry.href} prefetch={false}>{entry.label}<span aria-hidden="true"> ↗</span></Link> : <strong>{entry.label}</strong>}
       {entry.detail && <span>{entry.detail}</span>}
     </li>)}</ul>}
-    {response.action && <Link className="terminal-action" href={response.action.href!} prefetch={false}>{response.action.label}<span aria-hidden="true"> →</span></Link>}
+    {response.action && <Link className="terminal-action" href={response.action.href!} prefetch={false} onClick={event => navigateHash(event, response.action!.href!)}>{response.action.label}<span aria-hidden="true"> →</span></Link>}
   </div>;
 }
 

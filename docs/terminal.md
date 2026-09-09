@@ -17,8 +17,9 @@ localized. Unsupported input receives a concise command-not-found response.
 on the server from the existing profile and publication catalogs. The client
 component receives only a small serializable command map; it does not maintain a
 second factual catalog. Draft/review achievements cannot reach Terminal output.
-The `contact` command states that the section arrives in the next phase and does
-not create or link to an unpublished section.
+The `contact` command derives its concise Email, GitHub, LinkedIn and CV output
+from the same approved server-side catalog as Contact. Its action navigates to
+the published `#contact` section without duplicating contact values in the client.
 
 ## Interaction and safety
 

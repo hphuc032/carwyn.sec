@@ -37,6 +37,11 @@ for (const path of ["/fr", "/vi/missing", "/missing", "/operations/not-published
   console.log(`PASS ${path}: 404`);
 }
 
+const publicCv = await fetch(`${base}/cv/nguyen-hoang-phuc-cv.pdf`, { signal: AbortSignal.timeout(30000) });
+assert.equal(publicCv.status, 200);
+assert.ok(publicCv.headers.get("content-type")?.includes("application/pdf"));
+console.log("PASS /cv/nguyen-hoang-phuc-cv.pdf: approved public derivative");
+
 for (const locale of ["en", "vi"]) {
   for (const slug of ["secure-api-gateway", "vulnerability-assessment", "network-traffic-analysis"]) {
     const path = `${locale === "vi" ? "/vi" : ""}/operations/${slug}`;

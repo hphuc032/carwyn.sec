@@ -13,7 +13,8 @@
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint . --max-warnings=0",
     "type-check": "next typegen && tsc --noEmit",
-    "check:routes": "node scripts/check-routes.mjs"
+    "check:routes": "node scripts/check-routes.mjs",
+    "check:contact": "node scripts/check-contact.mjs"
   },
   "dependencies": {
     "@mdx-js/react": "3.1.1",

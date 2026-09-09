@@ -10,6 +10,7 @@
 @import "./achievements.css";
 @import "./security-log.css";
 @import "./terminal.css";
+@import "./contact.css";
 
 @layer base {
   html {

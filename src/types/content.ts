@@ -65,8 +65,8 @@ type AchievementBase = {
 export type Achievement = AchievementBase & (
   | { category: "certification"; status: LearningStatus }
   | { category: "community"; status: "core-team" | "participated" }
-  | { category: "competition"; status: "participated" | "top-4" }
-  | { category: "recognition"; status: "recognized" }
+  | { category: "competition"; status: "participated" }
+  | { category: "recognition"; status: "recognized" | "top-4" }
 );
 
 export interface Expertise {

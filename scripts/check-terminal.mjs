@@ -70,11 +70,16 @@ try {
   await run("achievements");
   const achievementText = await page.locator(".terminal-output ol > li").last().textContent();
   assert.ok(achievementText.includes("AWS Student Builder Group HCMUTE") && achievementText.includes("CEH"));
-  assert.ok(!achievementText.includes("Top 4") && !achievementText.includes("CSCV"));
+  assert.ok(achievementText.includes("Cybersecurity Student Competition 2025") && achievementText.includes("QUALIFYING ROUND PARTICIPANT"));
+  assert.ok(achievementText.includes("Top 4") && achievementText.includes("HCMUTE CTF 2025"));
+  assert.ok(!/finalist|winner|champion|qualified for final/i.test(achievementText));
   await run("logs");
   assert.equal(await page.locator(".terminal-output ol > li").last().locator(".terminal-response li").count(), 1);
   await run("contact");
-  assert.ok((await page.locator(".terminal-output ol > li").last().textContent()).includes("next phase"));
+  const contactRecord = page.locator(".terminal-output ol > li").last();
+  const contactText = await contactRecord.textContent();
+  assert.ok(contactText.includes("nhpntd@gmail.com") && contactText.includes("@hphuc032") && contactText.includes("Nguyen Hoang Phuc / PDF"));
+  assert.equal(await contactRecord.locator(".terminal-action").count(), 1);
   await run("invalid-command");
   assert.ok((await page.locator(".terminal-output ol > li").last().textContent()).includes("command not found: invalid-command"));
   await run('<img src=x onerror=alert(1)>');
@@ -113,7 +118,7 @@ try {
   await page.locator(".site-header").getByRole("link", { name: "Tiếng Việt", exact: true }).click();
   await page.waitForURL("**/vi#terminal");
   await run("contact");
-  assert.ok((await page.locator(".terminal-output ol > li").last().textContent()).includes("giai đoạn tiếp theo"));
+  assert.ok((await page.locator(".terminal-output ol > li").last().textContent()).includes("Các kênh liên hệ công khai"));
   console.log("PASS locale-preserving hash/routes and localized command output");
 
   await page.setViewportSize({ width: 1440, height: 1000 });

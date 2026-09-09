@@ -15,7 +15,7 @@ export const globalUI = {
   },
   vi: {
     menu: "Mục lục", close: "Đóng", navigation: "Điều hướng trang", language: "Ngôn ngữ",
-    labels: ["Giới thiệu", "Chuyên môn", "Dự án", "Kinh nghiệm", "Thành tựu", "Nhật ký", "Liên hệ"],
+    labels: ["Giới thiệu", "Chuyên môn", "Dự án", "Kinh nghiệm", "Thành tựu", "Security Log", "Liên hệ"],
     unavailable: "Mục này chưa được công bố.", translationUnavailable: "Bản dịch chưa được công bố",
     online: "HỆ THỐNG TRỰC TUYẾN", compactOnline: "TRỰC TUYẾN", location: "VIỆT NAM / UTC+7", system: "HỆ THỐNG",
     initializing: "KHỞI TẠO CARWYN.SEC", ready: "GIAO DIỆN SẴN SÀNG", home: "carwyn.sec — Trang chủ",

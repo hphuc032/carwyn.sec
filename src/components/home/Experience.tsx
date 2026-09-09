@@ -8,7 +8,7 @@ function dateText(range: DateRange, locale: Locale) {
   const render = (value: NonNullable<DateRange["start"]>) => {
     if (value.precision === "year") return value.value.slice(0, 4);
     const [year, month] = value.value.split("-");
-    return value.precision === "month" ? `${months[locale][Number(month) - 1]}${locale === "en" ? " " : "/"}${year}` : value.value;
+    return value.precision === "month" ? `${months[locale][Number(month) - 1]} ${year}` : value.value;
   };
   if (!range.start) return undefined;
   return { start: render(range.start), end: range.end === "present" ? (locale === "en" ? "Present" : "Hiện tại") : range.end ? render(range.end) : undefined };

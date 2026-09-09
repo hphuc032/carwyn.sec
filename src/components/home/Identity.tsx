@@ -7,7 +7,7 @@ import type { Locale } from "@/i18n/locales";
 
 const labels = {
   en: { section: "Identity", question: "Who is behind the system?", field: "Information Security", location: "Vietnam", based: "Based in", learning: "Currently learning", progress: "In progress", caption: "The person behind carwyn.sec" },
-  vi: { section: "Bản sắc", question: "Ai là người phía sau hệ thống?", field: "An toàn thông tin", location: "Việt Nam", based: "Địa điểm", learning: "Đang học", progress: "Đang học", caption: "Con người phía sau carwyn.sec" },
+  vi: { section: "Giới thiệu", question: "Ai là người phía sau hệ thống?", field: "An toàn thông tin", location: "Việt Nam", based: "Địa điểm", learning: "Đang học", progress: "Đang học", caption: "Con người phía sau carwyn.sec" },
 } as const;
 
 export function Identity({ locale }: { locale: Locale }) {

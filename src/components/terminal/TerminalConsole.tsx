@@ -108,7 +108,7 @@ export function TerminalConsole({ content }: { content: TerminalContent }) {
   }
 
   return <div className="terminal-console" data-native-cursor>
-    <div className="terminal-console-bar"><span>CARWYN.SEC / LOCAL INTERFACE</span><span>{content.ready}</span></div>
+    <div className="terminal-console-bar"><span>{content.consoleLabel}</span><span>{content.ready}</span></div>
     <div ref={output} className="terminal-output" tabIndex={0} aria-label={content.outputLabel}>
       <div className="terminal-welcome"><p>{content.ready}</p><p>{content.instruction}</p></div>
       <ol>{history.map(record => <li key={record.id}>

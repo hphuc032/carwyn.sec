@@ -4,18 +4,25 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales } from "@/i18n/locales";
 import { editorialFont, technicalFont } from "@/styles/fonts";
 import { PageShell } from "@/components/layout/PageShell";
+import { getSiteOrigin, localizedMetadata, siteDescriptions, siteTitle } from "@/lib/site-metadata";
 import "@/styles/globals.css";
 
-export const metadata: Metadata = {
-  icons: { icon: "/favicon.svg" },
-  title: {
-    default: "carwyn.sec — Cyber Security Portfolio",
-    template: "%s | carwyn.sec",
-  },
-  description: "The personal Information Security portfolio of Nguyen Hoang Phuc.",
-  // The foundation is not a published portfolio. Revisit at release readiness.
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+  const origin = getSiteOrigin();
+  return {
+    ...localizedMetadata({
+      locale,
+      title: siteTitle,
+      description: siteDescriptions[locale],
+      paths: { en: "/", vi: "/vi" },
+    }),
+    ...(origin ? { metadataBase: new URL(origin) } : {}),
+    icons: { icon: "/favicon.svg" },
+    robots: { index: Boolean(origin), follow: Boolean(origin) },
+  };
+}
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

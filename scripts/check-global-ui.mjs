@@ -46,7 +46,6 @@ try {
     await page.goto(base + (locale === "vi" ? "/vi" : "/"));
     await page.waitForFunction(() => document.querySelector(".menu-trigger") !== null);
     const menu = locale === "en" ? "Index" : "Mục lục";
-    const close = locale === "en" ? "Close" : "Đóng";
     for (const width of [375, 430, 768, 1024, 1440, 1920]) {
       await page.setViewportSize({ width, height: 900 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${locale} ${width} page overflow`);
@@ -65,32 +64,18 @@ try {
     await page.keyboard.press("Tab");
     assert.ok(await page.evaluate(() => document.querySelector("dialog").contains(document.activeElement)), "modal focus wraps");
     assert.ok(await page.evaluate(() => document.activeElement.matches(":focus-visible")));
-    const oldUrl = page.url();
     await page.locator(".index-links a").nth(6).press("Enter");
-    assert.equal(page.url(), oldUrl, "missing section must not change location");
-    await page.getByRole("button", { name: close, exact: true }).click();
+    await page.waitForURL(`**/${locale === "vi" ? "vi" : ""}#contact`);
+    await page.waitForFunction(() => document.activeElement.id === "contact");
+    await page.waitForFunction(() => document.querySelector(".status-section").textContent.includes("07"));
+    assert.equal(await page.locator("dialog").evaluate(el => el.open), false);
     await page.locator(".skip-link").focus();
     await page.keyboard.press("Enter");
     assert.equal(await page.evaluate(() => document.activeElement.id), "main-content");
-    console.log(`PASS ${locale}: six widths, modal, Escape, focus return/trap, missing sections, skip link`);
+    console.log(`PASS ${locale}: six widths, modal, Escape, focus return/trap, Contact navigation, skip link`);
   }
 
-  // Ephemeral DOM fixture: verifies future sections without adding portfolio content.
-  await page.evaluate(() => {
-    const section = document.createElement("section");
-    section.id = "contact";
-    section.style.minHeight = "100vh";
-    section.textContent = "Observer test fixture";
-    document.querySelector("main").append(section);
-  });
-  await page.waitForFunction(() => document.querySelector('.index-links a[href$="#contact"]').getAttribute("aria-disabled") === "false");
-  await page.getByRole("button", { name: "Mục lục", exact: true }).click();
-  await page.locator('.index-links a[href$="#contact"]').click();
-  await page.waitForFunction(() => document.activeElement.id === "contact");
-  await page.waitForFunction(() => document.querySelector(".status-section").textContent.includes("07"));
-  await page.evaluate(() => { document.getElementById("contact").remove(); window.scrollTo(0, 0); });
-  await page.waitForFunction(() => document.querySelector(".status-section").textContent.includes("00"));
-  console.log("PASS dynamic section discovery, active index, removal, navigation focus");
+  console.log("PASS section discovery, active index and navigation focus");
 
   await page.mouse.move(200, 200);
   await page.waitForFunction(() => document.querySelector(".context-cursor").dataset.visible === "true");

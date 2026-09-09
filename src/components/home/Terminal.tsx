@@ -15,12 +15,12 @@ import type { Locale } from "@/i18n/locales";
 const labels = {
   en: {
     section: "Terminal", mode: "Local command map", heading: "Ask the portfolio directly.",
-    intro: "A small, predefined interface into the published record.", ready: "INTERFACE READY",
+    intro: "A small, predefined interface into the published record.", ready: "INTERFACE READY", consoleLabel: "CARWYN.SEC / LOCAL INTERFACE",
     instruction: 'Type "help" to list the available commands.', input: "Enter a portfolio command", output: "Terminal output history",
     available: "Available commands", invalid: "command not found", hint: 'type "help" for available commands', cleared: "Terminal history cleared.",
     actions: { operations: "OPEN SELECTED OPERATIONS", experience: "OPEN EXPERIENCE", achievements: "OPEN ACHIEVEMENTS", logs: "OPEN SECURITY LOG", contact: "OPEN CONTACT" },
     status: { "core-team": "Core Team", participated: "Qualifying round participant", "top-4": "Top 4", recognized: "Recognized", "in-progress": "In progress", completed: "Completed" },
-    contact: "Public contact channels", unavailable: "No published records.",
+    contact: "Public contact channels", unavailable: "No published records.", identityField: "Information Security / Cyber Security", identityLocation: "Vietnam",
     descriptions: {
       help: "list available commands", whoami: "show the identity behind carwyn.sec", skills: "show published capability groups",
       projects: "show selected operations", experience: "show published work records", achievements: "show published achievement records",
@@ -29,15 +29,15 @@ const labels = {
   },
   vi: {
     section: "Terminal", mode: "Bản đồ lệnh cục bộ", heading: "Hỏi trực tiếp portfolio.",
-    intro: "Một giao diện nhỏ, định sẵn để xem các nội dung đã công bố.", ready: "GIAO DIỆN SẴN SÀNG",
+    intro: "Một giao diện nhỏ, định sẵn để xem các nội dung đã công bố.", ready: "GIAO DIỆN SẴN SÀNG", consoleLabel: "CARWYN.SEC / GIAO DIỆN CỤC BỘ",
     instruction: 'Nhập "help" để xem các lệnh hiện có.', input: "Nhập lệnh portfolio", output: "Lịch sử đầu ra terminal",
     available: "Các lệnh hiện có", invalid: "không tìm thấy lệnh", hint: 'nhập "help" để xem các lệnh hiện có', cleared: "Đã xóa lịch sử terminal.",
-    actions: { operations: "MỞ SELECTED OPERATIONS", experience: "MỞ KINH NGHIỆM", achievements: "MỞ THÀNH TỰU", logs: "MỞ SECURITY LOG", contact: "MỞ LIÊN HỆ" },
+    actions: { operations: "MỞ DỰ ÁN TIÊU BIỂU", experience: "MỞ KINH NGHIỆM", achievements: "MỞ THÀNH TỰU", logs: "MỞ SECURITY LOG", contact: "MỞ LIÊN HỆ" },
     status: { "core-team": "Core Team", participated: "Tham dự vòng sơ khảo", "top-4": "Top 4", recognized: "Được ghi nhận", "in-progress": "Đang học", completed: "Hoàn thành" },
-    contact: "Các kênh liên hệ công khai", unavailable: "Chưa có nội dung công khai.",
+    contact: "Các kênh liên hệ công khai", unavailable: "Chưa có nội dung công khai.", identityField: "An toàn thông tin / Cyber Security", identityLocation: "Việt Nam",
     descriptions: {
       help: "liệt kê các lệnh hiện có", whoami: "hiển thị danh tính phía sau carwyn.sec", skills: "hiển thị các nhóm năng lực đã công bố",
-      projects: "hiển thị Selected Operations", experience: "hiển thị kinh nghiệm đã công bố", achievements: "hiển thị thành tựu đã công bố",
+      projects: "hiển thị các dự án tiêu biểu", experience: "hiển thị kinh nghiệm đã công bố", achievements: "hiển thị thành tựu đã công bố",
       logs: "hiển thị các bài Security Log đã công bố", contact: "kiểm tra trạng thái phần liên hệ", clear: "xóa lịch sử terminal này",
     },
   },
@@ -68,11 +68,11 @@ export function Terminal({ locale }: { locale: Locale }) {
   const contactLines = [...socialLinks.map(link => `${link.kind === "email" ? "Email" : link.kind === "github" ? "GitHub" : "LinkedIn"}: ${link.label}`), `CV: ${publicCv.label}`];
   const response = (value: Omit<TerminalResponse, "announcement">): TerminalResponse => ({ ...value, announcement: value.heading ?? value.lines?.[0] ?? value.entries?.[0]?.label ?? copy.unavailable });
   const content: TerminalContent = {
-    prompt: "carwyn@sec:~$", ready: copy.ready, instruction: copy.instruction, inputLabel: copy.input, outputLabel: copy.output,
+    prompt: "carwyn@sec:~$", ready: copy.ready, consoleLabel: copy.consoleLabel, instruction: copy.instruction, inputLabel: copy.input, outputLabel: copy.output,
     commandDescriptions: copy.descriptions, availableHeading: copy.available, invalidPrefix: copy.invalid,
     invalidHint: copy.hint, clearedAnnouncement: copy.cleared,
     responses: {
-      whoami: response({ lines: [profile.name, profile.brand, `${profile.field} / Cyber Security`, profile.location] }),
+      whoami: response({ lines: [profile.name, profile.brand, copy.identityField, copy.identityLocation] }),
       skills: response({ heading: copy.descriptions.skills, entries: skills }),
       projects: response({ heading: copy.descriptions.projects, entries: projectEntries, action: { label: copy.actions.operations, href: `${home}#operations` } }),
       experience: response({ heading: copy.descriptions.experience, entries: experienceEntries, action: { label: copy.actions.experience, href: `${home}#experience` } }),

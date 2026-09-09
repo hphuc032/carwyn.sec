@@ -54,7 +54,7 @@ try {
   await page.getByRole("link", { name: "Tiếng Việt", exact: true }).first().click();
   await page.waitForURL("**/vi#experience");
   assert.equal(await page.evaluate(() => performance.timeOrigin), origin);
-  assert.ok((await page.locator(".experience-record").first().textContent()).includes("Tháng 8/2026"));
+  assert.ok((await page.locator(".experience-record").first().textContent()).includes("Tháng 8 2026"));
   await page.getByRole("link", { name: "English", exact: true }).first().click();
   await page.waitForURL("**/#experience");
   assert.equal(await page.evaluate(() => performance.timeOrigin), origin);

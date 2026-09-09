@@ -14,7 +14,9 @@
     "lint": "eslint . --max-warnings=0",
     "type-check": "next typegen && tsc --noEmit",
     "check:routes": "node scripts/check-routes.mjs",
-    "check:contact": "node scripts/check-contact.mjs"
+    "check:contact": "node scripts/check-contact.mjs",
+    "check:localization": "node scripts/check-localization.mjs",
+    "check:metadata": "node scripts/check-metadata.mjs"
   },
   "dependencies": {
     "@mdx-js/react": "3.1.1",

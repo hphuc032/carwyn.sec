@@ -29,6 +29,7 @@ export type TerminalResponse = {
 export type TerminalContent = {
   prompt: string;
   ready: string;
+  consoleLabel: string;
   instruction: string;
   inputLabel: string;
   outputLabel: string;

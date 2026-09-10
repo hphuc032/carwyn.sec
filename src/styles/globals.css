@@ -66,6 +66,20 @@
   transform: translateY(0);
 }
 
+.not-found {
+  min-height: calc(100svh - var(--header-height) - var(--status-height));
+  display: grid;
+  place-items: center;
+  padding: var(--section-space) var(--page-gutter);
+}
+
+.not-found-inner { width: min(100%, var(--reading-width)); }
+.not-found-inner > :first-child { color: var(--text-subtle); font: var(--text-mono-label)/1.65 var(--font-technical), monospace; }
+.not-found-inner h1 { margin-block: var(--space-6); font-size: var(--text-heading-1); line-height: 1.2; letter-spacing: -.04em; }
+.not-found-inner > p:not(:first-child) { max-width: 34rem; color: var(--text-muted); font-size: var(--text-body-lg); }
+.not-found-inner a { display: inline-flex; min-height: 44px; align-items: center; margin-top: var(--space-8); color: var(--text-primary); text-decoration: underline; text-decoration-color: var(--border-active); text-underline-offset: .35em; }
+html[lang="en"] .not-found-vi, html[lang="vi"] .not-found-en { display: none; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

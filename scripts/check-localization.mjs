@@ -67,8 +67,8 @@ try {
     assert.equal(await page.locator("#achievements .achievement-group").count(), 4);
     assert.equal(await page.locator("#operations .operation-row").count(), 3);
     assert.equal(await page.locator("#identity img").getAttribute("alt"), locale === "vi"
-      ? "Nguyen Hoang Phuc mặc áo khoác đen và đeo kính râm, ngồi trong không gian có tông màu ấm."
-      : "Nguyen Hoang Phuc wearing a black jacket and sunglasses, seated in warm natural surroundings.");
+      ? "Chân dung Nguyen Hoang Phuc ngồi trong không gian tự nhiên."
+      : "Portrait of Nguyen Hoang Phuc seated in a natural setting.");
     assert.equal(await page.locator(".skip-link").textContent(), locale === "vi" ? "Chuyển đến nội dung" : "Skip to content");
     await assertMetadata(locale, "carwyn.sec — Cyber Security Portfolio", locale === "vi" ? "Portfolio An toàn thông tin" : "personal Information Security portfolio");
     console.log(`PASS ${locale}: homepage content, claims, accessibility text, metadata and six widths`);

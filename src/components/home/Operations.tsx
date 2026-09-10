@@ -20,7 +20,7 @@ export function Operations({ locale }: { locale: Locale }) {
           const ready = isPublishedCase(project.slug, locale) && project.caseStudyState === "published";
           const body = <><span className="operation-index">CASE {project.caseNumber}</span><div className="operation-copy"><h3 lang="en"><span className="record-reveal" data-reveal="record" data-reveal-key={`case-${project.id}`}>{copy.title}</span></h3><p className="operation-category">{project.category?.[locale]?.value}</p><p className="operation-summary">{copy.summary}</p></div><span className="operation-arrow" aria-hidden="true">↗</span></>;
           return <li key={project.id} className="operation-row">
-            {ready ? <Link className="operation-link" href={casePath(project.slug, locale)} prefetch={false} data-cursor="view" aria-label={`${vi ? "Xem dự án" : "View case"} ${project.caseNumber}: ${copy.title}`}>{body}</Link> : <div className="operation-link">{body}</div>}
+            {ready ? <Link className="operation-link" href={casePath(project.slug, locale)} prefetch={false} data-cursor="view"><span className="sr-only">{vi ? "Xem bài viết dự án: " : "View case study: "}</span>{body}</Link> : <div className="operation-link">{body}</div>}
             <div className="operation-preview"><ProjectVisual project={project} locale={locale} /></div>
           </li>;
         })}

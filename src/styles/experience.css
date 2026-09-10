@@ -1,7 +1,7 @@
 /* Calm editorial work records after the denser Operations chapter. */
 .experience {
   --experience-paper: #d5d8d2; --text-primary: #1c211e; --text-muted: #48514c;
-  --text-subtle: #59635d; --border: #a8afa9; --focus: #175f64;
+  --text-subtle: #535c56; --border: #a8afa9; --focus: #175f64;
   background: var(--experience-paper); color: var(--text-primary); padding-block: var(--section-space) var(--transition-space);
 }
 .experience ::selection { background: #1c211e; color: var(--experience-paper); }

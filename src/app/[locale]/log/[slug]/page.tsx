@@ -8,14 +8,13 @@ import { localizedMetadata } from "@/lib/site-metadata";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export const dynamicParams = false;
 export function generateStaticParams() { return securityLogPublication.map(({ slug }) => ({ slug })); }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const entry = publishedSecurityLog(slug, locale);
-  if (!entry) notFound();
+  if (!entry) return { title: locale === "vi" ? "Không tìm thấy bài viết — carwyn.sec" : "Log not found — carwyn.sec", robots: { index: false, follow: false } };
   const content = entry.content[locale]!.value;
   return localizedMetadata({
     locale,

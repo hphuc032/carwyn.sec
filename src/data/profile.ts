@@ -14,8 +14,8 @@ export const profile = {
   portrait: {
     src: "/images/identity/nguyen-hoang-phuc.webp", width: 1800, height: 2700,
     alt: {
-      en: { state: "published", value: "Nguyen Hoang Phuc wearing a black jacket and sunglasses, seated in warm natural surroundings." },
-      vi: { state: "published", value: "Nguyen Hoang Phuc mặc áo khoác đen và đeo kính râm, ngồi trong không gian có tông màu ấm." },
+      en: { state: "published", value: "Portrait of Nguyen Hoang Phuc seated in a natural setting." },
+      vi: { state: "published", value: "Chân dung Nguyen Hoang Phuc ngồi trong không gian tự nhiên." },
     },
   },
 } as const satisfies Profile;

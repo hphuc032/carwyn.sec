@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const project = publishedCase(slug, locale);
-  if (!project) notFound();
+  if (!project) return { title: locale === "vi" ? "Không tìm thấy dự án — carwyn.sec" : "Case study not found — carwyn.sec", robots: { index: false, follow: false } };
   const content = project.content[locale]!.value;
   if (!content.summary) notFound();
   return localizedMetadata({

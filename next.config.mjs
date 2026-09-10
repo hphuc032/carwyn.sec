@@ -7,6 +7,7 @@ export default function nextConfig(phase) {
   return withMDX({
   reactStrictMode: true,
   poweredByHeader: false,
+  experimental: { globalNotFound: true },
   // Browsers may request the conventional icon before streamed metadata arrives.
   async redirects() { return [{ source: "/favicon.ico", destination: "/favicon.svg", permanent: true }]; },
   // Preview files are not route candidates in production. No runtime opt-in.

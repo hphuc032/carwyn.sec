@@ -1,5 +1,6 @@
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { StatusIndicator } from "@/components/ui/StatusIndicator";
+import { BackToTopLink } from "@/components/ui/BackToTopLink";
 import type { Locale } from "@/i18n/locales";
 
 const labels = {
@@ -14,7 +15,7 @@ export function EndSystem({ locale }: { locale: Locale }) {
       <div className="end-system-topline"><SectionLabel number="10">{copy.section}</SectionLabel><StatusIndicator state="active">{copy.status}</StatusIndicator></div>
       <div className="end-system-closing">
         <p id="end-system-title">carwyn.sec</p>
-        <a href="#hero">{copy.back} <span aria-hidden="true">↑</span></a>
+        <BackToTopLink>{copy.back} <span aria-hidden="true">↑</span></BackToTopLink>
       </div>
       <p className="end-system-copyright">{copy.copyright}</p>
     </div>

@@ -16,3 +16,7 @@ next-env.d.ts
 # Private originals: publish only deliberately reviewed derivatives later.
 /picture/
 /CV/
+
+# Unrelated local review captures; keep them outside the portfolio repository.
+/Codex Image Sep 8, 2026, 11_36_13 AM.png
+/Codex Image Sep 8, 2026, 11_36_35 AM.png

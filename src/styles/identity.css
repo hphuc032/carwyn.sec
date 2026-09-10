@@ -34,7 +34,7 @@
   .identity-introduction { display: grid; gap: var(--space-4); margin-bottom: var(--space-8); padding-bottom: var(--space-6); }
   .identity-composition { grid-template-columns: 1fr; }
   .identity-name-block { grid-column: 1; grid-row: 1; padding-top: 0; margin-bottom: var(--space-8); }
-  .identity-name { font-size: clamp(2.5rem, 9.7vw, 4.5rem); }
+  .identity-name { font-size: clamp(2rem, 9.7vw, 4.5rem); }
   .identity-field { margin-top: var(--space-4); }
   .identity-portrait { grid-column: 1; grid-row: 2; }
   .identity-story { grid-column: 1; grid-row: 3; padding-bottom: 0; }

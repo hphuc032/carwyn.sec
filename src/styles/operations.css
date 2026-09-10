@@ -9,6 +9,7 @@
 .operation-link { position: relative; z-index: 1; display: grid; grid-template-columns: 6rem 1fr 3rem; gap: var(--grid-gap); padding-block: var(--space-12); min-height: 20rem; align-items: start; }
 .operation-index, .operation-category, .operations-end > span, .case-eyebrow { font: var(--text-mono-label)/1.65 var(--font-technical), monospace; text-transform: uppercase; color: var(--text-subtle); letter-spacing: .065em; }
 .operation-index { padding-top: var(--space-3); }
+.operation-copy { min-width: 0; }
 .operation-copy h3 { max-width: 14ch; font-weight: 500; font-size: clamp(2.5rem, 5.8vw, 6rem); line-height: 1.12; letter-spacing: -.05em; text-transform: uppercase; transition: transform var(--duration-medium) var(--ease-editorial); }
 .operation-row:last-child .operation-copy h3 { max-width: 10ch; }
 .operation-category { margin-top: var(--space-6); color: var(--text-muted); }
@@ -29,6 +30,10 @@
   .operation-row:hover .operation-preview, .operation-row:focus-within .operation-preview { opacity: 1; clip-path: inset(0); }
   .operation-row:hover h3, .operation-row:focus-within h3 { transform: translateX(var(--space-2)); }
   .operation-row:hover .operation-arrow { transform: translate(3px, -3px); }
+}
+@media (hover: none), (pointer: coarse) {
+  /* Touch layouts keep every project legible without a hover-dependent preview. */
+  .operation-preview { display: none; }
 }
 .case-study { padding-block: var(--space-4) var(--section-space); }
 .case-opening { padding-block: var(--space-12) var(--space-16); border-bottom: 1px solid var(--border); }
@@ -57,6 +62,7 @@
   .operation-index { grid-column: 1 / 3; padding-top: 0; }
   .operation-copy { grid-column: 1; }
   .operation-copy h3 { font-size: clamp(2rem, 8.9vw, 3.5rem); max-width: 14ch; }
+  .operation-copy h3 { overflow-wrap: anywhere; }
   .operation-arrow { grid-column: 2; grid-row: 2; font-size: 1.5rem; }
   .operation-preview { display: none; }
   .operations-end { flex-direction: column; }

@@ -61,6 +61,9 @@
   .terminal-form { grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); padding-inline: var(--space-4); }
   .terminal-form input { min-height: 2.75rem; }
 }
+@media (pointer: coarse) {
+  .terminal-form input { min-height: 2.75rem; }
+}
 @media (prefers-reduced-motion: reduce) {
   .terminal-response a { transition: none; }
 }

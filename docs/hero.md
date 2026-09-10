@@ -1,5 +1,9 @@
 # Phase 8 — Hero
 
+Current motion behavior is superseded by [Phase 18 motion polish](motion-polish.md):
+HeroMotion was removed; typography stays resolved and the static-to-live sphere
+handoff now follows initialization. The original Phase 8 record below is historical.
+
 Global UI checkpoint: f672c67, feat: establish carwyn.sec global interface.
 Hero changes are uncommitted. Original portraits/CVs and unrelated root PNGs are
 untouched. No Identity or later portfolio section was added.

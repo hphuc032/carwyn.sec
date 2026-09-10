@@ -32,7 +32,7 @@ export function Contact({ locale }: { locale: Locale }) {
     <div className="contact-inner">
       <div className="contact-topline"><SectionLabel number="09">{copy.section}</SectionLabel><span>{copy.channel}</span></div>
       <div className="contact-opening">
-        <h2 id="contact-title" lang="en" aria-label={copy.heading}><span>LET&apos;S</span><span>CONNECT.</span></h2>
+        <h2 id="contact-title" lang="en" aria-label={copy.heading} data-arrival="conclusion"><span>LET&apos;S</span><span>CONNECT.</span></h2>
         <p>{copy.intro}</p>
       </div>
       <address className="contact-address">

@@ -1,0 +1,11 @@
+/* One active low-resolution water canvas, always behind crisp DOM typography. */
+.record-reveal { display: block; }
+[data-liquid] { position: relative; isolation: isolate; }
+.liquid-surface { position: absolute; inset: 0; z-index: -1; overflow: clip; pointer-events: none; }
+.liquid-light { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .operation-link:focus-visible ~ .operation-preview svg { transform: perspective(900px) translateZ(8px); }
+}
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse), (forced-colors: active) {
+  .liquid-surface { display: none; }
+}

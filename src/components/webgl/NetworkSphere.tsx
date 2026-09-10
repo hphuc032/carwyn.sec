@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { Component, useCallback, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { getInitializationState, getServerInitializationState, subscribeInitialization } from "@/lib/initialization-state";
 import { useReducedMotion } from "@/hooks/use-motion-preference";
 import type { Locale } from "@/i18n/locales";
 
@@ -16,6 +17,7 @@ class NetworkBoundary extends Component<{ children: ReactNode; onFailure: () => 
 export function NetworkSphere({ children, locale }: { children: ReactNode; locale: Locale }) {
   const root = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const initialization = useSyncExternalStore(subscribeInitialization, getInitializationState, getServerInitializationState);
   const [eligible, setEligible] = useState(false);
   const [visible, setVisible] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -42,7 +44,7 @@ export function NetworkSphere({ children, locale }: { children: ReactNode; local
     return () => { observer.disconnect(); document.removeEventListener("visibilitychange", visibility); };
   }, []);
   useEffect(() => {
-    if (!eligible || reduced || !visible || hidden || requested || failed) return;
+    if (initialization !== "ready" || !eligible || reduced || !visible || hidden || requested || failed) return;
     // Defer enhancement; the complete SVG/heading has already been painted.
     const timer = window.setTimeout(() => {
       const probe = document.createElement("canvas");
@@ -52,7 +54,7 @@ export function NetworkSphere({ children, locale }: { children: ReactNode; local
       setRequested(true);
     }, 250);
     return () => clearTimeout(timer);
-  }, [eligible, reduced, visible, hidden, requested, failed, onFailure]);
+  }, [initialization, eligible, reduced, visible, hidden, requested, failed, onFailure]);
   const enhanced = requested && eligible && !reduced && !failed;
   return <div ref={root} className="network-object" data-network-mode={enhanced && ready ? "webgl" : "static"}>
     <div className="network-stage" aria-hidden="true">

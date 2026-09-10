@@ -20,7 +20,7 @@ export function Identity({ locale }: { locale: Locale }) {
       </div>
       <div className="identity-composition">
         <figure className="identity-portrait">
-          <div className="identity-image-frame">
+          <div className="identity-image-frame" data-arrival="portrait">
             <Image src={profile.portrait.src} width={profile.portrait.width} height={profile.portrait.height}
               loading="eager"
               alt={profile.portrait.alt[locale].value}
@@ -28,7 +28,7 @@ export function Identity({ locale }: { locale: Locale }) {
           </div>
           <figcaption><span>{copy.caption}</span><span aria-hidden="true">NHP / 01</span></figcaption>
         </figure>
-        <div className="identity-name-block">
+        <div className="identity-name-block" data-arrival="name">
           <h2 id="identity-name" className="identity-name" aria-label={profile.name}>
             <span aria-hidden="true">NGUYEN<br />HOANG PHUC</span>
           </h2>

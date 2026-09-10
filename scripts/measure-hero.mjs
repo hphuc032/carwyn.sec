@@ -31,7 +31,8 @@ try {
     results[mode] = {
       networkMode: await page.locator(".network-object").getAttribute("data-network-mode"),
       networkReadyMs: await page.evaluate(() => window.__networkReady),
-      canvas: await page.locator("canvas").evaluateAll(nodes => nodes.map(el => ({ width: el.width, height: el.height, cssWidth: el.clientWidth }))),
+      canvas: await page.locator(".network-live canvas").evaluateAll(nodes => nodes.map(el => ({ width: el.width, height: el.height, cssWidth: el.clientWidth }))),
+      wakeBuffers: await page.locator(".liquid-light").evaluateAll(nodes => nodes.map(el => ({ width: el.width, height: el.height }))),
       idleTaskMsPerSecond: (after.TaskDuration - before.TaskDuration) * 1000,
       scripts,
     };

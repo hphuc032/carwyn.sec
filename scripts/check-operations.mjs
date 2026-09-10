@@ -24,7 +24,8 @@ try {
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${locale}/${width} homepage overflow`);
       assert.equal(await page.locator(".operation-copy h3").evaluateAll(els => els.some(el => el.scrollWidth > el.clientWidth + 1)), false);
       if (width >= 768) assert.ok(await page.locator(".operation-row").evaluateAll(rows => rows.every(row => {
-        const range = document.createRange(); range.selectNodeContents(row.querySelector("h3"));
+        // Measure glyph lines, excluding the reveal wrapper's full-width block box.
+        const range = document.createRange(); range.selectNodeContents(row.querySelector(".record-reveal") ?? row.querySelector("h3"));
         return Math.max(...[...range.getClientRects()].map(rect => rect.right)) + 8 < row.querySelector(".operation-preview").getBoundingClientRect().left;
       })), `${locale}/${width}: preview must not cover title`);
     }

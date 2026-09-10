@@ -2,11 +2,12 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { StaticNetwork } from "@/components/webgl/StaticNetwork";
 import { NetworkSphere } from "@/components/webgl/NetworkSphere";
 import type { Locale } from "@/i18n/locales";
-import { HeroMotion } from "./HeroMotion";
 import { HeroScrollCue } from "./HeroScrollCue";
+import { LiquidLight } from "@/components/motion/LiquidLight";
 
 export function Hero({ locale }: { locale: Locale }) {
-  return <section id="hero" className="hero" aria-labelledby="hero-title">
+  return <section id="hero" className="hero" aria-labelledby="hero-title" data-liquid="1">
+    <LiquidLight />
     <div className="hero-topline" data-hero-detail>
       <SectionLabel number="01">HERO</SectionLabel>
       <span className="hero-signature" lang="en">Nguyen Hoang Phuc</span>
@@ -20,6 +21,5 @@ export function Hero({ locale }: { locale: Locale }) {
       <p className="hero-field">{locale === "en" ? "INFORMATION SECURITY" : "AN TOÀN THÔNG TIN"}<span>2026</span></p>
       <HeroScrollCue locale={locale} />
     </div>
-    <HeroMotion />
   </section>;
 }

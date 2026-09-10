@@ -24,9 +24,16 @@ try {
     await page.waitForTimeout(2600);
     assert.ok(await page.getByRole("heading", { name: "UNDERSTAND SYSTEMS. DEFEND THEM.", exact: true }).isVisible());
     assert.equal(await page.locator(".network-object").getAttribute("data-network-mode"), "static");
-    assert.equal(await page.locator("canvas").count(), 0);
+    assert.equal(await page.locator(".network-live canvas").count(), 0);
+    assert.equal(await page.locator(".liquid-light").evaluateAll(els => els.some(el => el.width !== 1 || el.height !== 1)), false);
     assert.equal(await page.locator(".network-static").evaluate(el => getComputedStyle(el).opacity), "1");
-    if (mode === "blocked-enhancements") assert.ok(blocked >= 2, "both deferred enhancements were fault-injected");
+    if (mode === "blocked-enhancements") {
+      // Chapter GSAP is now requested only as Identity approaches the viewport.
+      await page.locator('[data-arrival="portrait"]').evaluate(el => scrollTo(0, scrollY + el.getBoundingClientRect().top - innerHeight - 80));
+      await page.waitForTimeout(800);
+      assert.ok(blocked >= 2, "WebGL and chapter GSAP were fault-injected");
+      assert.equal(await page.locator('[data-arrival="portrait"]').evaluate(el => getComputedStyle(el).opacity), "1");
+    }
     console.log(`PASS ${mode}: readable heading and complete static sphere`);
     await context.close();
   }

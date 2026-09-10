@@ -11,6 +11,7 @@ import { publishedProjects } from "@/data/projects";
 import { publishedSecurityLogs } from "@/data/security-log";
 import { logArticlePath, logIndexPath } from "@/data/security-log-publication";
 import type { Locale } from "@/i18n/locales";
+import { LiquidLight } from "@/components/motion/LiquidLight";
 
 const labels = {
   en: {
@@ -82,10 +83,11 @@ export function Terminal({ locale }: { locale: Locale }) {
     },
   };
 
-  return <section id="terminal" className="terminal-section" aria-labelledby="terminal-title" tabIndex={-1}>
+  return <section id="terminal" className="terminal-section" aria-labelledby="terminal-title" tabIndex={-1} data-liquid="0.45">
+    <LiquidLight />
     <div className="terminal-inner">
       <div className="terminal-topline"><SectionLabel number="08">{copy.section}</SectionLabel><span>{copy.mode}</span></div>
-      <div className="terminal-intro"><h2 id="terminal-title">{copy.heading}</h2><p>{copy.intro}</p></div>
+      <div className="terminal-intro"><h2 id="terminal-title" data-reveal="chapter" data-reveal-key="terminal">{copy.heading}</h2><p>{copy.intro}</p></div>
       <TerminalConsole content={content} />
       <noscript><style>{`.terminal-console{display:none}`}</style><div className="terminal-noscript"><p>{copy.instruction}</p><ul>{Object.keys(copy.descriptions).map(command => <li key={command}>{command}</li>)}</ul></div></noscript>
     </div>

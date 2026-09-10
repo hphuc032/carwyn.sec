@@ -38,7 +38,7 @@ export function Achievements({ locale }: { locale: Locale }) {
               return <li className="achievement-record" data-status={record.status} key={record.id}>
                 <span className="achievement-index">{String(record.order).padStart(3, "0")}</span>
                 <div className="achievement-primary">
-                  <h4>{communityRecord ? record.organization : content.title}</h4>
+                  <h4 data-reveal="record" data-reveal-key={`achievement-${record.id}`}>{communityRecord ? record.organization : content.title}</h4>
                   <p className="achievement-descriptor">{communityRecord ? content.title : content.descriptor}</p>
                   {content.detail && <p className="achievement-detail">{content.detail}</p>}
                   {!!record.evidenceLinks?.length && <ul className="achievement-links">{record.evidenceLinks.map(link => <li key={link.url}><a href={link.url} target="_blank" rel="noopener noreferrer">{copy.viewEvent} <span aria-hidden="true">↗</span><span className="sr-only"> ({copy.newTab})</span></a></li>)}</ul>}

@@ -77,6 +77,10 @@ try {
 
   console.log("PASS section discovery, active index and navigation focus");
 
+  // Inspect pointer states independently of the preceding native smooth scroll.
+  // The decorative cursor intentionally clears while that scroll is in progress.
+  await page.goto(base);
+  await page.locator("h1").hover();
   await page.mouse.move(200, 200);
   await page.waitForFunction(() => document.querySelector(".context-cursor").dataset.visible === "true");
   for (const name of ["view", "open", "scan"]) {

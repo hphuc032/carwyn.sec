@@ -13,7 +13,7 @@ export function Expertise({ locale }: { locale: Locale }) {
     <div className="expertise-inner">
       <div className="expertise-topline"><SectionLabel number="03">{copy.section}</SectionLabel><span>{copy.count}</span></div>
       <div className="expertise-introduction">
-        <h2 id="expertise-title">{copy.heading}</h2>
+        <h2 id="expertise-title" data-reveal="chapter" data-reveal-key="expertise">{copy.heading}</h2>
         <p>{copy.note}</p>
       </div>
       <div className="expertise-columns" aria-hidden="true">

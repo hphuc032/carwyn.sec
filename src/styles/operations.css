@@ -27,7 +27,7 @@
 @media (hover: hover) and (pointer: fine) {
   .operation-preview { opacity: 0; clip-path: inset(0 0 0 100%); }
   .operation-row:hover .operation-preview, .operation-row:focus-within .operation-preview { opacity: 1; clip-path: inset(0); }
-  .operation-row:hover h3 { transform: translateX(var(--space-2)); }
+  .operation-row:hover h3, .operation-row:focus-within h3 { transform: translateX(var(--space-2)); }
   .operation-row:hover .operation-arrow { transform: translate(3px, -3px); }
 }
 .case-study { padding-block: var(--space-4) var(--section-space); }
@@ -66,5 +66,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .operation-preview { opacity: .55; clip-path: none; }
-  .operation-row:hover h3, .operation-link:focus-visible .operation-arrow, .operation-row:hover .operation-arrow { transform: none; }
+  .operation-row:hover h3, .operation-row:focus-within h3, .operation-link:focus-visible .operation-arrow, .operation-row:hover .operation-arrow { transform: none; }
 }

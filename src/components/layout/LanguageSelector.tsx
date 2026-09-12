@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { globalUI, localizedPath, sectionIds } from "@/i18n/global-ui";
 import type { Locale } from "@/i18n/locales";
+import { deploymentBasePath, publicRoutePath } from "@/lib/deployment-path";
+import { DeploymentLink } from "@/components/ui/DeploymentLink";
 
 export function LanguageSelector({ locale, onNavigate }: { locale: Locale; onNavigate?: () => void }) {
   const pathname = usePathname();
@@ -13,7 +14,7 @@ export function LanguageSelector({ locale, onNavigate }: { locale: Locale; onNav
     {(["en", "vi"] as const).map((language) => {
       const href = localizedPath(pathname, language);
       if (!href) return <span key={language} aria-disabled="true" title={copy.translationUnavailable}>{language.toUpperCase()}</span>;
-      return <Link key={language} href={href} hrefLang={language} lang={language}
+      return <DeploymentLink key={language} href={href} hrefLang={language} lang={language}
         aria-label={language === "en" ? "English" : "Tiếng Việt"}
         aria-current={language === locale ? "page" : undefined}
         onClick={(event) => {
@@ -24,8 +25,12 @@ export function LanguageSelector({ locale, onNavigate }: { locale: Locale; onNav
           try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { /* Ignore malformed hashes. */ }
           const hash = id && (sectionIds.some((section) => section === id) || document.getElementById(id)) ? window.location.hash : "";
           onNavigate?.();
+          if (deploymentBasePath) {
+            window.location.assign(publicRoutePath(href) + window.location.search + hash);
+            return;
+          }
           router.push(href + window.location.search + hash, { scroll: false });
-        }}>{language.toUpperCase()}</Link>;
+        }}>{language.toUpperCase()}</DeploymentLink>;
     })}
   </nav>;
 }

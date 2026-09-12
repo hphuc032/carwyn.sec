@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { DeploymentLink } from "@/components/ui/DeploymentLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { globalUI, sectionIds, publicPath } from "@/i18n/global-ui";
@@ -41,7 +41,7 @@ export function GlobalInterface({ locale }: { locale: Locale }) {
 
   return <>
     <header className="site-header">
-      <Link className="site-brand" href={home} aria-label={copy.home}>carwyn.sec</Link>
+      <DeploymentLink className="site-brand" href={home} aria-label={copy.home}>carwyn.sec</DeploymentLink>
       <div className="header-controls">
         <LanguageSelector locale={locale} />
         <button ref={trigger} className="menu-trigger" type="button" aria-haspopup="dialog" aria-expanded={open} aria-controls="site-index" data-cursor="open" onClick={() => setOpen(true)}>{copy.menu}<span aria-hidden="true"> +</span></button>
@@ -62,7 +62,7 @@ export function GlobalInterface({ locale }: { locale: Locale }) {
       <nav aria-label={copy.navigation} className="index-links">
         {sectionIds.map((id, index) => {
           const exists = available.includes(id) || (routeActive === "log" && id === "log") || (publicPath(pathname).startsWith("/operations/") && ["identity", "expertise", "operations"].includes(id));
-          return <Link key={id} href={`${home}#${id}`} aria-disabled={!exists} aria-describedby={!exists ? "index-availability" : undefined}
+          return <DeploymentLink key={id} href={`${home}#${id}`} aria-disabled={!exists} aria-describedby={!exists ? "index-availability" : undefined}
             aria-current={currentActive === id ? "location" : undefined} onClick={(event) => {
               if (!exists) { event.preventDefault(); return; }
               if (publicPath(pathname) !== "/") { setOpen(false); return; }
@@ -77,7 +77,7 @@ export function GlobalInterface({ locale }: { locale: Locale }) {
                 if (!destination.hasAttribute("tabindex")) destination.setAttribute("tabindex", "-1");
                 destination.focus({ preventScroll: true });
               });
-            }}><span className="index-number">{String(index + 1).padStart(2, "0")}</span><span>{copy.labels[index]}</span></Link>;
+            }}><span className="index-number">{String(index + 1).padStart(2, "0")}</span><span>{copy.labels[index]}</span></DeploymentLink>;
         })}
       </nav>
       {available.length < sectionIds.length && <p id="index-availability" className="index-note">{copy.unavailable}</p>}

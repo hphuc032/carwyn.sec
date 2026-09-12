@@ -5,6 +5,7 @@ import { publishedProjects } from "@/data/projects";
 import { casePath, isPublishedCase } from "@/data/project-publication";
 import type { Project } from "@/types/content";
 import type { Locale } from "@/i18n/locales";
+import { publicAssetPath } from "@/lib/deployment-path";
 
 export function CaseStudy({ project, locale }: { project: Project; locale: Locale }) {
   const vi = locale === "vi";
@@ -31,7 +32,7 @@ export function CaseStudy({ project, locale }: { project: Project; locale: Local
         if (!prose.paragraphs.length) return null;
         const evidence = section.evidence;
         return <section className="case-prose" key={section.id} aria-labelledby={section.id}><h2 id={section.id}>{prose.heading}</h2>{prose.paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)}
-          {evidence && evidence.alt[locale]?.state === "published" && <figure className="case-evidence"><Image src={evidence.src} width={evidence.width} height={evidence.height} alt={evidence.alt[locale]!.value} sizes="(max-width: 768px) 90vw, 704px" />{evidence.caption?.[locale]?.state === "published" && <figcaption>{evidence.caption[locale]!.value}</figcaption>}</figure>}
+          {evidence && evidence.alt[locale]?.state === "published" && <figure className="case-evidence"><Image src={publicAssetPath(evidence.src)} width={evidence.width} height={evidence.height} alt={evidence.alt[locale]!.value} sizes="(max-width: 768px) 90vw, 704px" />{evidence.caption?.[locale]?.state === "published" && <figcaption>{evidence.caption[locale]!.value}</figcaption>}</figure>}
         </section>;
       })}
       {!!project.links?.length && <nav className="case-resources" aria-label={vi ? "Tài liệu dự án" : "Project resources"}>{project.links.map(link => <TextLink key={link.url} href={link.url} arrow="external">{link.label}</TextLink>)}</nav>}

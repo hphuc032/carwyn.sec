@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/locales";
+import { deploymentBasePath, publicAssetPath } from "@/lib/deployment-path";
 
 const socialLocale = { en: "en_US", vi: "vi_VN" } as const;
 
@@ -10,18 +11,39 @@ export const siteDescriptions = {
   vi: "Portfolio An toàn thông tin của Nguyen Hoang Phuc.",
 } as const satisfies Record<Locale, string>;
 
-export function getSiteOrigin() {
+export function getSiteUrl() {
   const configured = process.env.SITE_URL;
   if (!configured) return undefined;
   const url = new URL(configured);
-  if (url.protocol !== "https:" || url.username || url.password) {
-    throw new Error("SITE_URL must be a public HTTPS origin");
+  if (url.protocol !== "https:" || url.username || url.password || url.search || url.hash) {
+    throw new Error("SITE_URL must be a public HTTPS URL without credentials, query, or hash");
   }
-  return url.origin;
+  return url.href.replace(/\/$/, "");
 }
 
-function absoluteUrl(path: string, origin: string) {
-  return new URL(path, origin).href;
+export function absoluteSiteUrl(path: string, siteUrl = getSiteUrl()) {
+  if (!siteUrl) return undefined;
+  const base = new URL(`${siteUrl.replace(/\/$/, "")}/`);
+  let relative = path.replace(/^\/+/, "");
+  if (deploymentBasePath && relative && !relative.endsWith("/") && !/\.[a-z0-9]+$/i.test(relative)) {
+    relative += "/";
+  }
+  return new URL(relative || ".", base).href;
+}
+
+export function rootMetadata(locale: Locale): Metadata {
+  const siteUrl = getSiteUrl();
+  return {
+    ...localizedMetadata({
+      locale,
+      title: siteTitle,
+      description: siteDescriptions[locale],
+      paths: { en: "/", vi: "/vi" },
+    }),
+    ...(siteUrl ? { metadataBase: new URL(`${siteUrl}/`) } : {}),
+    icons: { icon: publicAssetPath("/favicon.svg") },
+    robots: { index: Boolean(siteUrl), follow: Boolean(siteUrl) },
+  };
 }
 
 export function localizedMetadata({
@@ -39,9 +61,9 @@ export function localizedMetadata({
   type?: "website" | "article";
   publishedTime?: string;
 }): Metadata {
-  const origin = getSiteOrigin();
+  const siteUrl = getSiteUrl();
   const currentPath = paths[locale];
-  const currentUrl = origin ? absoluteUrl(currentPath, origin) : undefined;
+  const currentUrl = absoluteSiteUrl(currentPath, siteUrl);
   const openGraph: NonNullable<Metadata["openGraph"]> = {
     type,
     title,
@@ -57,13 +79,13 @@ export function localizedMetadata({
     title: { absolute: title },
     description,
     openGraph,
-    ...(origin ? {
+    ...(siteUrl ? {
       alternates: {
         canonical: currentUrl,
         languages: {
-          en: absoluteUrl(paths.en, origin),
-          vi: absoluteUrl(paths.vi, origin),
-          "x-default": absoluteUrl(paths.en, origin),
+          en: absoluteSiteUrl(paths.en, siteUrl)!,
+          vi: absoluteSiteUrl(paths.vi, siteUrl)!,
+          "x-default": absoluteSiteUrl(paths.en, siteUrl)!,
         },
       },
     } : {}),

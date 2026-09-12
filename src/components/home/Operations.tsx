@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { DeploymentLink } from "@/components/ui/DeploymentLink";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { TextLink } from "@/components/ui/TextLink";
 import { ProjectVisual } from "@/components/operations/ProjectVisual";
@@ -20,7 +20,7 @@ export function Operations({ locale }: { locale: Locale }) {
           const ready = isPublishedCase(project.slug, locale) && project.caseStudyState === "published";
           const body = <><span className="operation-index">CASE {project.caseNumber}</span><div className="operation-copy"><h3 lang="en"><span className="record-reveal" data-reveal="record" data-reveal-key={`case-${project.id}`}>{copy.title}</span></h3><p className="operation-category">{project.category?.[locale]?.value}</p><p className="operation-summary">{copy.summary}</p></div><span className="operation-arrow" aria-hidden="true">↗</span></>;
           return <li key={project.id} className="operation-row">
-            {ready ? <Link className="operation-link" href={casePath(project.slug, locale)} prefetch={false} data-cursor="view"><span className="sr-only">{vi ? "Xem bài viết dự án: " : "View case study: "}</span>{body}</Link> : <div className="operation-link">{body}</div>}
+            {ready ? <DeploymentLink className="operation-link" href={casePath(project.slug, locale)} prefetch={false} data-cursor="view"><span className="sr-only">{vi ? "Xem bài viết dự án: " : "View case study: "}</span>{body}</DeploymentLink> : <div className="operation-link">{body}</div>}
             <div className="operation-preview"><ProjectVisual project={project} locale={locale} /></div>
           </li>;
         })}

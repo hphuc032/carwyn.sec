@@ -1,6 +1,7 @@
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { publicCv, socialLink } from "@/data/contact";
 import type { Locale } from "@/i18n/locales";
+import { publicAssetPath } from "@/lib/deployment-path";
 
 const labels = {
   en: {
@@ -40,7 +41,7 @@ export function Contact({ locale }: { locale: Locale }) {
           {methods.map((method, index) => <li key={method.id} className="contact-record">
             <span className="contact-index">{String(index + 1).padStart(2, "0")}</span>
             <span className="contact-kind">{copy.names[method.id]}</span>
-            <a href={method.link.url} data-cursor="open" {...(method.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+            <a href={method.link.url.startsWith("/") ? publicAssetPath(method.link.url) : method.link.url} data-cursor="open" {...(method.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
               <span className="contact-value">{method.link.label}</span>
               <span className="contact-action">{copy.actions[method.id]} <span aria-hidden="true">{method.newTab ? "↗" : "→"}</span></span>
               {method.newTab && <span className="sr-only"> ({copy.newTab})</span>}

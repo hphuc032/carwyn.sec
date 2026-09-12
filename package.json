@@ -10,13 +10,15 @@
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
+    "build:github-pages": "node scripts/build-github-pages.mjs",
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint . --max-warnings=0",
     "type-check": "next typegen && tsc --noEmit",
     "check:routes": "node scripts/check-routes.mjs",
     "check:contact": "node scripts/check-contact.mjs",
     "check:localization": "node scripts/check-localization.mjs",
-    "check:metadata": "node scripts/check-metadata.mjs"
+    "check:metadata": "node scripts/check-metadata.mjs",
+    "check:static-export": "node scripts/check-static-export.mjs"
   },
   "dependencies": {
     "@mdx-js/react": "3.1.1",

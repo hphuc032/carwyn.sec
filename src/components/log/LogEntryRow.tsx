@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { DeploymentLink } from "@/components/ui/DeploymentLink";
 import { formatLogDate, getSecurityLogReadingTime } from "@/data/security-log";
 import { logArticlePath } from "@/data/security-log-publication";
 import type { Locale } from "@/i18n/locales";
@@ -10,7 +10,7 @@ export function LogEntryRow({ entry, locale, headingLevel = "h2" }: { entry: Sec
   const minutes = getSecurityLogReadingTime(entry.slug, locale);
   const Heading = headingLevel;
   return <li className="log-entry">
-    <Link className="log-entry-link" href={logArticlePath(entry.slug, locale)} data-cursor="open">
+    <DeploymentLink className="log-entry-link" href={logArticlePath(entry.slug, locale)} data-cursor="open">
       <span className="log-entry-id">LOG_{entry.logNumber}</span>
       <div className="log-entry-copy"><Heading>{content.title}</Heading><p>{content.excerpt}</p></div>
       <div className="log-entry-meta">
@@ -19,6 +19,6 @@ export function LogEntryRow({ entry, locale, headingLevel = "h2" }: { entry: Sec
         {entry.publishedAt && <time dateTime={entry.publishedAt.value}>{formatLogDate(entry.publishedAt.value, locale)}</time>}
       </div>
       <span className="log-entry-action">{locale === "vi" ? "ĐỌC LOG" : "READ LOG"}<span aria-hidden="true"> →</span></span>
-    </Link>
+    </DeploymentLink>
   </li>;
 }

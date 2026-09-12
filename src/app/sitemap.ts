@@ -3,14 +3,16 @@ import { locales } from "@/i18n/locales";
 import { publishedCase, projects } from "@/data/projects";
 import { casePath } from "@/data/project-publication";
 import { logArticlePath, logIndexPath, securityLogPublication } from "@/data/security-log-publication";
-import { getSiteOrigin } from "@/lib/site-metadata";
+import { absoluteSiteUrl, getSiteUrl } from "@/lib/site-metadata";
+
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const origin = getSiteOrigin();
-  if (!origin) return [];
+  const siteUrl = getSiteUrl();
+  if (!siteUrl) return [];
   const localizedEntry = (paths: Record<(typeof locales)[number], string>, locale: (typeof locales)[number]) => ({
-    url: new URL(paths[locale], origin).href,
-    alternates: { languages: Object.fromEntries(locales.map(language => [language, new URL(paths[language], origin).href])) },
+    url: absoluteSiteUrl(paths[locale], siteUrl)!,
+    alternates: { languages: Object.fromEntries(locales.map(language => [language, absoluteSiteUrl(paths[language], siteUrl)!])) },
   });
   const homePaths = { en: "/", vi: "/vi" };
   const homeRoutes = locales.map(locale => localizedEntry(homePaths, locale));

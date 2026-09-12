@@ -4,6 +4,7 @@ import { Metadata, MetadataItem } from "@/components/ui/Metadata";
 import { StatusIndicator } from "@/components/ui/StatusIndicator";
 import { profile } from "@/data/profile";
 import type { Locale } from "@/i18n/locales";
+import { publicAssetPath } from "@/lib/deployment-path";
 
 const labels = {
   en: { section: "Identity", question: "Who is behind the system?", field: "Information Security", location: "Vietnam", based: "Based in", learning: "Currently learning", progress: "In progress", caption: "The person behind carwyn.sec" },
@@ -21,7 +22,7 @@ export function Identity({ locale }: { locale: Locale }) {
       <div className="identity-composition">
         <figure className="identity-portrait">
           <div className="identity-image-frame" data-arrival="portrait">
-            <Image src={profile.portrait.src} width={profile.portrait.width} height={profile.portrait.height}
+            <Image src={publicAssetPath(profile.portrait.src)} width={profile.portrait.width} height={profile.portrait.height}
               loading="eager"
               alt={profile.portrait.alt[locale].value}
               sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1565px) 52vw, 750px" />

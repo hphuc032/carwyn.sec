@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DeploymentLink } from "@/components/ui/DeploymentLink";
 import type { ComponentPropsWithoutRef } from "react";
 
 type Props = Omit<ComponentPropsWithoutRef<typeof Link>, "href" | "target" | "rel"> & {
@@ -17,6 +18,6 @@ export function TextLink({ href, variant = "text", arrow, newTab = false, newTab
     ...props, className: `text-link link-${variant} ${className}`,
     target: newTab ? "_blank" : undefined, rel: newTab ? "noopener noreferrer" : undefined,
   };
-  if (href.startsWith("/") && !href.startsWith("//")) return <Link href={href} {...linkProps}>{content}</Link>;
+  if (href.startsWith("/") && !href.startsWith("//")) return <DeploymentLink href={href} {...linkProps}>{content}</DeploymentLink>;
   return <a href={href} {...linkProps}>{content}</a>;
 }

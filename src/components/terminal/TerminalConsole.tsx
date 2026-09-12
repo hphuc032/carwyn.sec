@@ -1,14 +1,15 @@
 "use client";
 
-import Link from "next/link";
+import { DeploymentLink } from "@/components/ui/DeploymentLink";
 import { FormEvent, KeyboardEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { terminalCommands, type TerminalCommand, type TerminalContent, type TerminalResponse } from "./types";
+import { publicRoutePath } from "@/lib/deployment-path";
 
 const MAX_HISTORY = 50;
 type HistoryRecord = { id: number; command: string; response: TerminalResponse };
 
 function navigateHash(event: MouseEvent<HTMLAnchorElement>, href: string) {
-  const targetUrl = new URL(href, window.location.href);
+  const targetUrl = new URL(publicRoutePath(href), window.location.href);
   if (targetUrl.origin !== window.location.origin || targetUrl.pathname !== window.location.pathname || !targetUrl.hash) return;
   const destination = document.getElementById(decodeURIComponent(targetUrl.hash.slice(1)));
   if (!destination) return;
@@ -24,10 +25,10 @@ function Response({ response }: { response: TerminalResponse }) {
     {response.heading && <p className="terminal-response-heading">{response.heading}</p>}
     {response.lines?.map(line => <p key={line}>{line}</p>)}
     {!!response.entries?.length && <ul>{response.entries.map(entry => <li key={`${entry.label}-${entry.detail ?? ""}`}>
-      {entry.href ? <Link href={entry.href} prefetch={false}>{entry.label}<span aria-hidden="true"> ↗</span></Link> : <strong>{entry.label}</strong>}
+      {entry.href ? <DeploymentLink href={entry.href} prefetch={false}>{entry.label}<span aria-hidden="true"> ↗</span></DeploymentLink> : <strong>{entry.label}</strong>}
       {entry.detail && <span>{entry.detail}</span>}
     </li>)}</ul>}
-    {response.action && <Link className="terminal-action" href={response.action.href!} prefetch={false} onClick={event => navigateHash(event, response.action!.href!)}>{response.action.label}<span aria-hidden="true"> →</span></Link>}
+    {response.action && <DeploymentLink className="terminal-action" href={response.action.href!} prefetch={false} onClick={event => navigateHash(event, response.action!.href!)}>{response.action.label}<span aria-hidden="true"> →</span></DeploymentLink>}
   </div>;
 }
 

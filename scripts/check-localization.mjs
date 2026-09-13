@@ -22,6 +22,17 @@ page.on("console", message => {
 });
 const measurements = [];
 
+async function switchStaticLocale(locale, path, hash = "") {
+  // A static anchor replaces the document. An existing <main> is not evidence
+  // that the destination has loaded; wait for its URL and document language.
+  await page.waitForLoadState("networkidle");
+  await Promise.all([
+    page.waitForURL(url => url.pathname.replace(/\/$/, "") === path.replace(/\/$/, "") && url.hash === hash, { waitUntil: "load" }),
+    page.locator(`.site-header .language-selector a[lang="${locale}"]`).click(),
+  ]);
+  await page.waitForFunction(language => document.documentElement.lang === language, locale);
+}
+
 async function assertMetadata(locale, expectedTitle, descriptionFragment, type = "website") {
   assert.equal(await page.title(), expectedTitle);
   assert.ok((await page.locator('meta[name="description"]').getAttribute("content"))?.includes(descriptionFragment));
@@ -80,7 +91,7 @@ try {
     await page.goto(`${base}/#${section}`);
     const timeOrigin = await page.evaluate(() => performance.timeOrigin);
     if (staticExport) {
-      await page.locator('.site-header .language-selector a[lang="vi"]').click();
+      await switchStaticLocale("vi", "/vi", `#${section}`);
     } else {
       await Promise.all([
         page.waitForURL(`**/vi#${section}`),
@@ -93,7 +104,7 @@ try {
     if (!staticExport) assert.equal(await page.evaluate(() => performance.timeOrigin), timeOrigin, `${section}: client transition`);
     assert.equal(await page.locator(".initialization").getAttribute("data-play"), null, `${section}: initialization replay`);
     if (staticExport) {
-      await page.locator('.site-header .language-selector a[lang="en"]').click();
+      await switchStaticLocale("en", "/", `#${section}`);
     } else {
       await Promise.all([
         page.waitForURL(`**/#${section}`),
@@ -117,7 +128,7 @@ try {
       const targetLocale = locale === "en" ? "vi" : "en";
       const expectedPath = `/${targetLocale === "vi" ? `vi/operations/${slug}` : `operations/${slug}`}`;
       if (staticExport) {
-        await page.locator(`.site-header .language-selector a[lang="${targetLocale}"]`).click();
+        await switchStaticLocale(targetLocale, expectedPath);
       } else {
         await Promise.all([
           page.waitForURL(`**/${targetLocale === "vi" ? `vi/operations/${slug}` : `operations/${slug}`}`),

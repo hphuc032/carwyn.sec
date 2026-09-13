@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
+import { gzipSync } from "node:zlib";
 
 const outputDirectory = join(process.cwd(), "out");
 const siteUrl = "https://hphuc032.github.io";
@@ -101,7 +102,14 @@ const server = createServer(async (request, response) => {
   const file = requested && await exists(requested) ? requested : join(outputDirectory, "404.html");
   response.statusCode = requested && await exists(requested) ? 200 : 404;
   response.setHeader("Content-Type", mime.get(extname(file)) || "application/octet-stream");
-  response.end(await readFile(file));
+  const body = await readFile(file);
+  // Optional local laboratory delivery; production headers remain owned by Pages.
+  const compressed = process.argv.includes("--compressed") && /\b gzip\b|^gzip\b|,gzip\b/.test(request.headers["accept-encoding"] || "") && /\.(html|css|js|svg|xml|txt)$/.test(file);
+  if (compressed) {
+    response.setHeader("Content-Encoding", "gzip");
+    response.setHeader("Vary", "Accept-Encoding");
+  }
+  response.end(compressed ? gzipSync(body) : body);
 });
 
 const serve = process.argv.includes("--serve");

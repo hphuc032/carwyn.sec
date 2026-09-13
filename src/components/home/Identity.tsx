@@ -23,7 +23,7 @@ export function Identity({ locale }: { locale: Locale }) {
         <figure className="identity-portrait">
           <div className="identity-image-frame" data-arrival="portrait">
             <Image src={publicAssetPath(profile.portrait.src)} width={profile.portrait.width} height={profile.portrait.height}
-              loading="eager"
+              loading="lazy"
               alt={profile.portrait.alt[locale].value}
               sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1565px) 52vw, 750px" />
           </div>

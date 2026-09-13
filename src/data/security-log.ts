@@ -55,7 +55,7 @@ export const securityLogEntries = [
   },
 ] as const satisfies readonly SecurityLogEntry[];
 
-const contentRegistry: Readonly<Record<string, Readonly<Record<Locale, ArticleResource>>>> = {
+const contentRegistry: Readonly<Partial<Record<string, Readonly<Partial<Record<Locale, ArticleResource>>>>>> = {
   "analyzing-http-and-https-traffic-with-wireshark": {
     en: {
       Content: EnglishArticle,

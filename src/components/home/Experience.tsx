@@ -1,5 +1,5 @@
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { experience } from "@/data/experience";
+import { publishedExperience } from "@/data/experience";
 import type { Locale } from "@/i18n/locales";
 import type { DateRange } from "@/types/content";
 
@@ -16,13 +16,13 @@ function dateText(range: DateRange, locale: Locale) {
 
 export function Experience({ locale }: { locale: Locale }) {
   const vi = locale === "vi";
+  const records = publishedExperience(locale);
   return <section id="experience" className="experience" aria-labelledby="experience-title" tabIndex={-1}>
     <div className="experience-inner">
       <div className="experience-topline"><SectionLabel number="05">{vi ? "Kinh nghiệm" : "Experience"}</SectionLabel><span>{vi ? "02 công việc" : "02 work records"}</span></div>
       <div className="experience-intro"><h2 id="experience-title">{vi ? "Công việc, trong thực tế." : "Work, in context."}</h2><p>{vi ? "Kiểm thử phần mềm và công việc thủ công trực tiếp." : "Software testing and hands-on craft."}</p></div>
       <ol className="experience-list">
-        {experience.toSorted((a, b) => a.order - b.order).map(record => {
-          const content = record.content[locale]!.value;
+        {records.map(({ record, content }) => {
           const date = record.dates ? dateText(record.dates, locale) : undefined;
           return <li key={record.id} className="experience-record">
             <div className="experience-chronology">

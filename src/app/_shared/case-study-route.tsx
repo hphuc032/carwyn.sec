@@ -6,7 +6,9 @@ import { projectPublication, casePath } from "@/data/project-publication";
 import { CaseStudy } from "@/components/operations/CaseStudy";
 import { localizedMetadata } from "@/lib/site-metadata";
 
-export const caseStaticParams = () => projectPublication.map(({ slug }) => ({ slug }));
+export const caseStaticParams = (locale: Locale) => projectPublication
+  .filter(record => (record.locales as readonly Locale[]).includes(locale))
+  .map(({ slug }) => ({ slug }));
 
 export async function caseStudyMetadata(locale: Locale, params: Promise<{ slug: string }>): Promise<Metadata> {
   const { slug } = await params;

@@ -5,7 +5,9 @@ import { isLocale } from "@/i18n/locales";
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export const dynamicParams = false;
-export const generateStaticParams = logStaticParams;
+export function generateStaticParams({ params }: { params: { locale: string } }) {
+  return isLocale(params.locale) ? logStaticParams(params.locale) : [];
+}
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;

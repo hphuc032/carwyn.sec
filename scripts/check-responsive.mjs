@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { mkdir, writeFile } from "node:fs/promises";
+import { publishedRoutes } from "./test-fixtures.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE_PATH ?? "playwright");
@@ -10,20 +11,7 @@ const output = "test-results/responsive";
 const errors = [];
 const results = [];
 
-const routes = [
-  "/",
-  "/operations/secure-api-gateway",
-  "/operations/vulnerability-assessment",
-  "/operations/network-traffic-analysis",
-  "/log",
-  "/log/analyzing-http-and-https-traffic-with-wireshark",
-  "/vi",
-  "/vi/operations/secure-api-gateway",
-  "/vi/operations/vulnerability-assessment",
-  "/vi/operations/network-traffic-analysis",
-  "/vi/log",
-  "/vi/log/analyzing-http-and-https-traffic-with-wireshark",
-];
+const routes = publishedRoutes;
 const viewports = [
   { label: "375", width: 375, height: 812, touch: true },
   { label: "430", width: 430, height: 932, touch: true },

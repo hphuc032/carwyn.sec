@@ -3,11 +3,12 @@ import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import { existsSync } from "node:fs";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { responsiveWidths } from "./test-fixtures.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE_PATH ?? "playwright");
 const base = process.argv[2] ?? "http://127.0.0.1:3000";
-const widths = [375, 430, 768, 1024, 1440, 1920];
+const widths = responsiveWidths;
 const expectedSourceHash = "D800848A65AB8EE3B534CEA254F3E1D2604B9E3D786DB0CBC7720BE69B8CF640";
 const expectedLinks = [
   "mailto:nhpntd@gmail.com",

@@ -1,4 +1,7 @@
+import "server-only";
+
 import type { Experience } from "@/types/content";
+import type { Locale } from "@/i18n/locales";
 
 // Evidence classification and withheld fields: docs/experience-evidence-audit.md.
 export const experience: readonly Experience[] = [
@@ -35,4 +38,20 @@ export const experience: readonly Experience[] = [
       vi: { state: "published", value: { role: "Cắm hoa", description: "Công việc cắm hoa tại Memory Flower, Phú Nhuận." } },
     },
   },
-] as const;
+] as const satisfies readonly Experience[];
+
+export function publishedExperience(locale: Locale) {
+  return experience
+    .filter((record) => record.state === "published" && record.content[locale]?.state === "published")
+    .map((record) => {
+      const content = record.content[locale]?.value;
+      if (!content?.role || !content.description) {
+        throw new Error(`Published experience ${record.id} lacks complete ${locale} content.`);
+      }
+      return {
+        record,
+        content: { ...content, role: content.role, description: content.description },
+      };
+    })
+    .toSorted((a, b) => a.record.order - b.record.order);
+}

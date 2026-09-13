@@ -3,7 +3,7 @@ import { logArticleMetadata, LogArticleRoute, logStaticParams } from "@/app/_sha
 type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
-export const generateStaticParams = logStaticParams;
+export const generateStaticParams = () => logStaticParams("en");
 export function generateMetadata({ params }: Props) {
   return logArticleMetadata("en", params);
 }

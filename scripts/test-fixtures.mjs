@@ -1,0 +1,29 @@
+// Independent expected public surface for browser/static validation. Keep this
+// separate from application catalogs so tests still detect missing exports.
+export const responsiveWidths = [375, 430, 768, 1024, 1440, 1920];
+export const homepageHashSections = [
+  "identity",
+  "expertise",
+  "operations",
+  "experience",
+  "achievements",
+  "log",
+  "terminal",
+  "contact",
+];
+export const operationSlugs = [
+  "secure-api-gateway",
+  "vulnerability-assessment",
+  "network-traffic-analysis",
+];
+export const securityLogSlug = "analyzing-http-and-https-traffic-with-wireshark";
+
+export const publishedRoutes = [
+  "/",
+  "/vi",
+  ...operationSlugs.flatMap(slug => [`/operations/${slug}`, `/vi/operations/${slug}`]),
+  "/log",
+  "/vi/log",
+  `/log/${securityLogSlug}`,
+  `/vi/log/${securityLogSlug}`,
+];

@@ -1,4 +1,7 @@
+import "server-only";
+
 import type { Expertise } from "@/types/content";
+import type { Locale } from "@/i18n/locales";
 
 // User-confirmed Phase 10 baseline. Tools are evidence of use, not proficiency ratings.
 export const expertise = [
@@ -35,3 +38,19 @@ export const expertise = [
     toolIds: ["Java", "Spring Boot", "Python", "MySQL", "Ubuntu", "Docker", "FortiGate"],
   },
 ] as const satisfies readonly Expertise[];
+
+export function publishedExpertise(locale: Locale) {
+  return expertise
+    .filter((record) => record.state === "published" && record.content[locale]?.state === "published")
+    .map((record) => {
+      const content = record.content[locale]?.value;
+      if (!content?.title || !content.description || !record.toolIds.length) {
+        throw new Error(`Published expertise ${record.id} lacks complete ${locale} content.`);
+      }
+      return {
+        record,
+        content: { ...content, title: content.title, description: content.description },
+      };
+    })
+    .toSorted((a, b) => a.record.order - b.record.order);
+}

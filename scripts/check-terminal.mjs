@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { responsiveWidths } from "./test-fixtures.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE_PATH ?? "playwright");
 const base = process.argv[2] ?? "http://127.0.0.1:3000";
 const staticExport = process.argv.includes("--static-export");
-const widths = [375, 430, 768, 1024, 1440, 1920];
+const widths = responsiveWidths;
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
 await context.addInitScript(() => {

@@ -3,8 +3,8 @@ import { TerminalConsole } from "@/components/terminal/TerminalConsole";
 import type { TerminalContent, TerminalResponse } from "@/components/terminal/types";
 import { publishedAchievements } from "@/data/achievements";
 import { publicCv, socialLinks } from "@/data/contact";
-import { expertise } from "@/data/expertise";
-import { experience } from "@/data/experience";
+import { publishedExpertise } from "@/data/expertise";
+import { publishedExperience } from "@/data/experience";
 import { casePath } from "@/data/project-publication";
 import { profile } from "@/data/profile";
 import { publishedProjects } from "@/data/projects";
@@ -47,14 +47,12 @@ const labels = {
 export function Terminal({ locale }: { locale: Locale }) {
   const copy = labels[locale];
   const home = locale === "vi" ? "/vi" : "/";
-  const skills = expertise.filter(item => item.state === "published").map(item => ({ label: item.content[locale].value.title, detail: item.toolIds.join(" / ") }));
+  const skills = publishedExpertise(locale).map(({ record, content }) => ({ label: content.title, detail: record.toolIds.join(" / ") }));
   const projectEntries = publishedProjects(locale).map(project => {
     const detail = project.category?.[locale]?.value;
     return { label: project.content[locale]!.value.title, href: casePath(project.slug, locale), ...(detail ? { detail } : {}) };
   });
-  const experienceEntries = experience.filter(record => record.state === "published" && record.content[locale]?.state === "published").toSorted((a, b) => a.order - b.order).map(record => {
-    const content = record.content[locale]!.value;
-    if (!content.role) throw new Error(`Published experience ${record.id} requires a ${locale} role for Terminal.`);
+  const experienceEntries = publishedExperience(locale).map(({ record, content }) => {
     const location = locale === "vi" && record.location === "Phu Nhuan" ? "Phú Nhuận" : record.location;
     return { label: record.organization ?? content.role, detail: [record.organization ? content.role : undefined, location].filter(Boolean).join(" / ") };
   });

@@ -1,8 +1,8 @@
 import { TextLink } from "@/components/ui/TextLink";
 import Image from "next/image";
 import { ProjectVisual } from "./ProjectVisual";
-import { publishedProjects } from "@/data/projects";
-import { casePath, isPublishedCase } from "@/data/project-publication";
+import { publishedCases } from "@/data/projects";
+import { casePath } from "@/data/project-publication";
 import type { Project } from "@/types/content";
 import type { Locale } from "@/i18n/locales";
 import { publicAssetPath } from "@/lib/deployment-path";
@@ -11,7 +11,7 @@ export function CaseStudy({ project, locale }: { project: Project; locale: Local
   const vi = locale === "vi";
   const copy = project.content[locale]!.value;
   const overview = project.overview?.[locale];
-  const others = publishedProjects(locale).filter(item => item.id !== project.id && item.caseStudyState === "published" && isPublishedCase(item.slug, locale));
+  const others = publishedCases(locale).filter(item => item.id !== project.id);
   return <main id="main-content" tabIndex={-1} className="case-study">
     <article className="case-inner" aria-labelledby="case-title">
       <TextLink href={`${vi ? "/vi" : "/"}#operations`} variant="navigation">{vi ? "← Dự án tiêu biểu" : "← Selected Operations"}</TextLink>

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { securityLogSlug } from "./test-fixtures.mjs";
 
 const base = process.argv[2] ?? "http://127.0.0.1:3000";
 const production = process.argv.includes("--production");
@@ -55,7 +56,7 @@ for (const locale of ["en", "vi"]) {
   }
 }
 
-const logSlug = "analyzing-http-and-https-traffic-with-wireshark";
+const logSlug = securityLogSlug;
 for (const locale of ["en", "vi"]) {
   const prefix = locale === "vi" ? "/vi" : "";
   for (const [path, marker] of [

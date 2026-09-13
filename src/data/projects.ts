@@ -48,11 +48,25 @@ export const projects: readonly Project[] = [
   },
 ];
 
+function assertPublishedProject(project: Project, locale: Locale) {
+  const content = project.content[locale];
+  const category = project.category?.[locale];
+  if (content?.state !== "published" || !content.value.title || !content.value.summary) {
+    throw new Error(`Published project ${project.id} lacks complete ${locale} summary content.`);
+  }
+  if (category?.state !== "published" || !category.value) {
+    throw new Error(`Published project ${project.id} lacks a ${locale} category.`);
+  }
+}
+
 export function publishedProjects(locale: Locale) {
-  return projects.filter(project => project.state === "published" && project.content[locale]?.state === "published")
-    .toSorted((a, b) => a.featuredOrder - b.featuredOrder);
+  const records = projects.filter(project => project.state === "published" && project.content[locale]?.state === "published");
+  records.forEach(project => assertPublishedProject(project, locale));
+  return records.toSorted((a, b) => a.featuredOrder - b.featuredOrder);
 }
 export function publishedCase(slug: string, locale: Locale) {
-  return publishedProjects(locale).find(project => project.slug === slug && project.caseStudyState === "published" && isPublishedCase(slug, locale));
+  return publishedCases(locale).find(project => project.slug === slug);
 }
-export const githubProfile = "https://github.com/hphuc032";
+export function publishedCases(locale: Locale) {
+  return publishedProjects(locale).filter(project => project.caseStudyState === "published" && isPublishedCase(project.slug, locale));
+}

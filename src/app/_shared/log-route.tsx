@@ -7,7 +7,9 @@ import { getSecurityLogArticle, publishedSecurityLog } from "@/data/security-log
 import { logArticlePath, logIndexPath, securityLogPublication } from "@/data/security-log-publication";
 import { localizedMetadata } from "@/lib/site-metadata";
 
-export const logStaticParams = () => securityLogPublication.map(({ slug }) => ({ slug }));
+export const logStaticParams = (locale: Locale) => securityLogPublication
+  .filter(record => (record.locales as readonly Locale[]).includes(locale))
+  .map(({ slug }) => ({ slug }));
 
 export function logIndexMetadata(locale: Locale): Metadata {
   return localizedMetadata({

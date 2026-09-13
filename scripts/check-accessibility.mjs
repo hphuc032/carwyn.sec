@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { mkdir, writeFile } from "node:fs/promises";
+import { publishedRoutes } from "./test-fixtures.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE_PATH ?? "playwright");
@@ -9,20 +10,7 @@ const browser = await chromium.launch({ channel: "msedge", headless: true });
 const findings = [];
 const runtimeErrors = [];
 const documents = [];
-const routes = [
-  "/",
-  "/operations/secure-api-gateway",
-  "/operations/vulnerability-assessment",
-  "/operations/network-traffic-analysis",
-  "/log",
-  "/log/analyzing-http-and-https-traffic-with-wireshark",
-  "/vi",
-  "/vi/operations/secure-api-gateway",
-  "/vi/operations/vulnerability-assessment",
-  "/vi/operations/network-traffic-analysis",
-  "/vi/log",
-  "/vi/log/analyzing-http-and-https-traffic-with-wireshark",
-];
+const routes = publishedRoutes;
 
 function watch(page, label) {
   page.on("pageerror", error => runtimeErrors.push(`${label}: ${error.message}`));

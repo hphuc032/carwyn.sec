@@ -2,13 +2,15 @@ import { DeploymentLink } from "@/components/ui/DeploymentLink";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { TextLink } from "@/components/ui/TextLink";
 import { ProjectVisual } from "@/components/operations/ProjectVisual";
-import { publishedProjects, githubProfile } from "@/data/projects";
+import { publishedProjects } from "@/data/projects";
 import { casePath, isPublishedCase } from "@/data/project-publication";
+import { socialLink } from "@/data/contact";
 import type { Locale } from "@/i18n/locales";
 import { LiquidLight } from "@/components/motion/LiquidLight";
 
 export function Operations({ locale }: { locale: Locale }) {
   const vi = locale === "vi";
+  const githubProfile = socialLink("github").url;
   return <section id="operations" className="operations" aria-labelledby="operations-title" tabIndex={-1} data-liquid="0.7">
     <LiquidLight />
     <div className="operations-inner">

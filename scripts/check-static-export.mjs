@@ -4,21 +4,12 @@ import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { gzipSync } from "node:zlib";
+import { publishedRoutes } from "./test-fixtures.mjs";
 
 const outputDirectory = join(process.cwd(), "out");
 const siteUrl = "https://hphuc032.github.io";
 const staleProjectPath = ["/", "carwyn.sec"].join("");
-const slugs = ["secure-api-gateway", "vulnerability-assessment", "network-traffic-analysis"];
-const articleSlug = "analyzing-http-and-https-traffic-with-wireshark";
-const routes = [
-  "/",
-  "/vi/",
-  ...slugs.flatMap(slug => [`/operations/${slug}/`, `/vi/operations/${slug}/`]),
-  "/log/",
-  "/vi/log/",
-  `/log/${articleSlug}/`,
-  `/vi/log/${articleSlug}/`,
-];
+const routes = publishedRoutes.map(route => route === "/" ? route : `${route}/`);
 const requiredFiles = [
   "index.html",
   "404.html",

@@ -3,7 +3,7 @@ import { caseStaticParams, caseStudyMetadata, CaseStudyRoute } from "@/app/_shar
 type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
-export const generateStaticParams = caseStaticParams;
+export const generateStaticParams = () => caseStaticParams("en");
 export function generateMetadata({ params }: Props) {
   return caseStudyMetadata("en", params);
 }

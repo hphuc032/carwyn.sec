@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { mkdir, writeFile } from "node:fs/promises";
+import { operationSlugs, responsiveWidths } from "./test-fixtures.mjs";
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE_PATH ?? "playwright");
 const base = process.argv[2] ?? "http://127.0.0.1:3000";
@@ -11,14 +12,14 @@ const page = await context.newPage();
 const errors = [];
 page.on("pageerror", e => errors.push(e.message));
 page.on("console", m => { if (["error", "warning"].includes(m.type())) errors.push(m.text()); });
-const slugs = ["secure-api-gateway", "vulnerability-assessment", "network-traffic-analysis"];
+const slugs = operationSlugs;
 const chrome = ".site-header,.system-status,.initialization,.context-cursor,.skip-link{visibility:hidden!important}";
 try {
   await mkdir("test-results/operations", { recursive: true });
   for (const locale of ["en", "vi"]) {
     const prefix = locale === "vi" ? "/vi" : "";
     await page.goto(base + prefix + "/#operations");
-    for (const width of [375, 430, 768, 1024, 1440, 1920]) {
+    for (const width of responsiveWidths) {
       await page.setViewportSize({ width, height: 1000 });
       assert.equal(await page.locator(".operation-link").count(), 3);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${locale}/${width} homepage overflow`);

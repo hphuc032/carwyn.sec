@@ -5,6 +5,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE_PATH ?? "playwright");
 const base = process.argv[2] ?? "http://127.0.0.1:3000";
+const staticExport = process.argv.includes("--static-export");
 const widths = [375, 430, 768, 1024, 1440, 1920];
 const sections = ["identity", "expertise", "operations", "experience", "achievements", "log", "terminal", "contact"];
 const cases = ["secure-api-gateway", "vulnerability-assessment", "network-traffic-analysis"];
@@ -78,12 +79,30 @@ try {
   for (const section of sections) {
     await page.goto(`${base}/#${section}`);
     const timeOrigin = await page.evaluate(() => performance.timeOrigin);
-    await page.locator('.site-header .language-selector a[lang="vi"]').click();
-    await page.waitForURL(`**/vi#${section}`);
-    assert.equal(await page.evaluate(() => performance.timeOrigin), timeOrigin, `${section}: client transition`);
+    if (staticExport) {
+      await page.locator('.site-header .language-selector a[lang="vi"]').click();
+    } else {
+      await Promise.all([
+        page.waitForURL(`**/vi#${section}`),
+        page.locator('.site-header .language-selector a[lang="vi"]').click(),
+      ]);
+    }
+    await page.locator("main").waitFor();
+    assert.equal(new URL(page.url()).pathname.replace(/\/$/, ""), "/vi");
+    assert.equal(new URL(page.url()).hash, `#${section}`);
+    if (!staticExport) assert.equal(await page.evaluate(() => performance.timeOrigin), timeOrigin, `${section}: client transition`);
     assert.equal(await page.locator(".initialization").getAttribute("data-play"), null, `${section}: initialization replay`);
-    await page.locator('.site-header .language-selector a[lang="en"]').click();
-    await page.waitForURL(`**/#${section}`);
+    if (staticExport) {
+      await page.locator('.site-header .language-selector a[lang="en"]').click();
+    } else {
+      await Promise.all([
+        page.waitForURL(`**/#${section}`),
+        page.locator('.site-header .language-selector a[lang="en"]').click(),
+      ]);
+    }
+    await page.locator("main").waitFor();
+    assert.equal(new URL(page.url()).pathname, "/");
+    assert.equal(new URL(page.url()).hash, `#${section}`);
   }
   console.log("PASS all eight meaningful homepage hashes survive EN/VI switching without replaying initialization");
 
@@ -96,8 +115,17 @@ try {
       assert.equal(forbiddenClaims.test(await page.locator("main").textContent()), false);
       await assertMetadata(locale, `${await page.locator("#case-title").textContent()} — carwyn.sec`, slug === "secure-api-gateway" ? (locale === "vi" ? "xác thực" : "authentication") : "");
       const targetLocale = locale === "en" ? "vi" : "en";
-      await page.locator(`.site-header .language-selector a[lang="${targetLocale}"]`).click();
-      await page.waitForURL(`**/${targetLocale === "vi" ? `vi/operations/${slug}` : `operations/${slug}`}`);
+      const expectedPath = `/${targetLocale === "vi" ? `vi/operations/${slug}` : `operations/${slug}`}`;
+      if (staticExport) {
+        await page.locator(`.site-header .language-selector a[lang="${targetLocale}"]`).click();
+      } else {
+        await Promise.all([
+          page.waitForURL(`**/${targetLocale === "vi" ? `vi/operations/${slug}` : `operations/${slug}`}`),
+          page.locator(`.site-header .language-selector a[lang="${targetLocale}"]`).click(),
+        ]);
+      }
+      await page.locator("main").waitFor();
+      assert.equal(new URL(page.url()).pathname.replace(/\/$/, ""), expectedPath);
     }
   }
   console.log("PASS three case studies: equivalent stable routes and matched publication boundaries");

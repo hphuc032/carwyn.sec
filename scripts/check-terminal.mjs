@@ -5,6 +5,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE_PATH ?? "playwright");
 const base = process.argv[2] ?? "http://127.0.0.1:3000";
+const staticExport = process.argv.includes("--static-export");
 const widths = [375, 430, 768, 1024, 1440, 1920];
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
@@ -112,11 +113,22 @@ try {
   await page.waitForURL("**/#operations");
   await page.goto(`${base}/#terminal`);
   await run("logs");
-  await page.locator(".terminal-output ol > li").last().locator(".terminal-action").click();
-  await page.waitForURL("**/log");
+  const logsAction = page.locator(".terminal-output ol > li").last().locator(".terminal-action");
+  if (staticExport) {
+    await logsAction.click();
+    assert.equal(new URL(page.url()).pathname.replace(/\/$/, ""), "/log");
+  } else {
+    await Promise.all([page.waitForURL("**/log"), logsAction.click()]);
+  }
   await page.goto(`${base}/#terminal`);
-  await page.locator(".site-header").getByRole("link", { name: "Tiếng Việt", exact: true }).click();
-  await page.waitForURL("**/vi#terminal");
+  const vietnameseLink = page.locator(".site-header").getByRole("link", { name: "Tiếng Việt", exact: true });
+  if (staticExport) {
+    await vietnameseLink.click();
+    assert.equal(new URL(page.url()).pathname.replace(/\/$/, ""), "/vi");
+    assert.equal(new URL(page.url()).hash, "#terminal");
+  } else {
+    await Promise.all([page.waitForURL("**/vi#terminal"), vietnameseLink.click()]);
+  }
   await run("contact");
   assert.ok((await page.locator(".terminal-output ol > li").last().textContent()).includes("Các kênh liên hệ công khai"));
   console.log("PASS locale-preserving hash/routes and localized command output");

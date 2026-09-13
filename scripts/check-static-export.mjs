@@ -5,8 +5,8 @@ import { readFile, stat } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 
 const outputDirectory = join(process.cwd(), "out");
-const basePath = "/carwyn.sec";
-const siteUrl = `https://hphuc032.github.io${basePath}`;
+const siteUrl = "https://hphuc032.github.io";
+const staleProjectPath = ["/", "carwyn.sec"].join("");
 const slugs = ["secure-api-gateway", "vulnerability-assessment", "network-traffic-analysis"];
 const articleSlug = "analyzing-http-and-https-traffic-with-wireshark";
 const routes = [
@@ -47,30 +47,32 @@ const htmlFiles = await Promise.all(requiredFiles.filter(file => file.endsWith("
 })));
 for (const { file, html } of htmlFiles) {
   assert.equal(/https?:\/\/(?:localhost|127\.0\.0\.1)/i.test(html), false, `${file}: localhost URL leaked`);
-  assert.equal(/(?:href|src)="\/(?!carwyn\.sec(?:\/|#|"))/.test(html), false, `${file}: unprefixed root-relative href/src`);
+  assert.equal(html.includes(staleProjectPath), false, `${file}: stale project-site path leaked`);
   assert.ok(html.includes(`${siteUrl}/`) || file === "404.html", `${file}: production base URL missing`);
 }
 
 const homeRecord = htmlFiles.find(item => item.file === "index.html");
 assert.ok(homeRecord, "home export must exist");
 const home = homeRecord.html;
-assert.ok(home.includes(`${basePath}/images/identity/nguyen-hoang-phuc.webp`), "portrait must use the deployment base path");
-assert.ok(home.includes(`${basePath}/cv/nguyen-hoang-phuc-cv.pdf`), "CV must use the deployment base path");
-assert.ok(home.includes(`${basePath}/_next/`), "Next.js assets must use the deployment base path");
+assert.ok(home.includes("/images/identity/nguyen-hoang-phuc.webp"), "portrait must resolve from the site root");
+assert.ok(home.includes("/cv/nguyen-hoang-phuc-cv.pdf"), "CV must resolve from the site root");
+assert.ok(home.includes("/_next/"), "Next.js assets must resolve from the site root");
 
 const sitemap = await readFile(join(outputDirectory, "sitemap.xml"), "utf8");
 assert.equal((sitemap.match(/<url>/g) ?? []).length, routes.length, "sitemap route count");
 assert.equal(sitemap.includes("localhost"), false, "sitemap must not contain localhost");
-assert.ok(routes.every(route => sitemap.includes(`${siteUrl}${route}`)), "sitemap must contain every published route under the project path");
+const sitemapRoutes = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => new URL(match[1]).pathname);
+assert.deepEqual(new Set(sitemapRoutes), new Set(routes), "sitemap must contain exactly the published route catalog");
+assert.ok(routes.every(route => sitemap.includes(`${siteUrl}${route}`)), "sitemap must contain every published route at the origin root");
 
 const robots = await readFile(join(outputDirectory, "robots.txt"), "utf8");
-assert.ok(robots.includes(`Allow: ${basePath}/`), "robots allow rule must include the project path");
-assert.ok(robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`), "robots sitemap URL must include the project path");
+assert.ok(robots.includes("Allow: /"), "robots must allow the origin-root site");
+assert.ok(robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`), "robots sitemap URL must use the production origin");
 
 const cv = await readFile(join(outputDirectory, "cv", "nguyen-hoang-phuc-cv.pdf"));
 assert.ok(cv.subarray(0, 5).toString() === "%PDF-", "public CV is not a PDF");
 console.log(`PASS artifact structure (${requiredFiles.length} required files, CV SHA256 ${createHash("sha256").update(cv).digest("hex")})`);
-console.log(`PASS base-path references, SEO URLs, robots and ${routes.length} published sitemap routes`);
+console.log(`PASS origin-root asset references, SEO URLs, robots and ${routes.length} published sitemap routes`);
 
 const mime = new Map([
   [".html", "text/html; charset=utf-8"], [".css", "text/css; charset=utf-8"],
@@ -81,8 +83,7 @@ const mime = new Map([
 
 function fileForRequest(requestUrl) {
   const pathname = decodeURIComponent(new URL(requestUrl, "http://127.0.0.1").pathname);
-  if (pathname !== basePath && !pathname.startsWith(`${basePath}/`)) return null;
-  const relative = pathname.slice(basePath.length).replace(/^\/+/, "");
+  const relative = pathname.replace(/^\/+/, "");
   const candidate = relative === "" ? "index.html" : relative.endsWith("/") ? `${relative}index.html` : relative;
   const resolved = normalize(join(outputDirectory, candidate));
   return resolved.startsWith(normalize(outputDirectory)) ? resolved : null;
@@ -109,10 +110,10 @@ await new Promise(resolve => server.listen(requestedPort, "127.0.0.1", resolve))
 try {
   const address = server.address();
   assert.ok(address && typeof address === "object");
-  const localOrigin = `http://127.0.0.1:${address.port}${basePath}`;
+  const localOrigin = `http://127.0.0.1:${address.port}`;
   for (const route of routes) {
     const response = await fetch(`${localOrigin}${route}`);
-    assert.equal(response.status, 200, `direct request failed: ${basePath}${route}`);
+    assert.equal(response.status, 200, `direct request failed: ${route}`);
     assert.match(response.headers.get("content-type") || "", /^text\/html/, `direct route must serve HTML: ${route}`);
   }
   const missing = await fetch(`${localOrigin}/log/not-published/`);

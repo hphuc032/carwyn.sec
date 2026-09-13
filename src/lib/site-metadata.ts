@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/locales";
-import { deploymentBasePath, publicAssetPath } from "@/lib/deployment-path";
+import { isStaticExport, publicAssetPath } from "@/lib/deployment-path";
 
 const socialLocale = { en: "en_US", vi: "vi_VN" } as const;
 
@@ -25,7 +25,7 @@ export function absoluteSiteUrl(path: string, siteUrl = getSiteUrl()) {
   if (!siteUrl) return undefined;
   const base = new URL(`${siteUrl.replace(/\/$/, "")}/`);
   let relative = path.replace(/^\/+/, "");
-  if (deploymentBasePath && relative && !relative.endsWith("/") && !/\.[a-z0-9]+$/i.test(relative)) {
+  if (isStaticExport && relative && !relative.endsWith("/") && !/\.[a-z0-9]+$/i.test(relative)) {
     relative += "/";
   }
   return new URL(relative || ".", base).href;

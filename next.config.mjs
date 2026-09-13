@@ -3,7 +3,6 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
 
 const withMDX = createMDX({});
 const isGitHubPages = process.env.DEPLOY_TARGET === "github-pages";
-const githubPagesBasePath = "/carwyn.sec";
 
 export default function nextConfig(phase) {
   return withMDX({
@@ -16,12 +15,11 @@ export default function nextConfig(phase) {
       : ["ts", "tsx", "mdx"],
     devIndicators: false,
     env: {
-      NEXT_PUBLIC_BASE_PATH: isGitHubPages ? githubPagesBasePath : "",
+      NEXT_PUBLIC_DEPLOY_TARGET: isGitHubPages ? "github-pages" : "",
     },
     ...(isGitHubPages ? {
       output: "export",
       trailingSlash: true,
-      basePath: githubPagesBasePath,
       images: { unoptimized: true },
     } : {
       // Preserve convenient aliases only on deployments with a Next.js server.

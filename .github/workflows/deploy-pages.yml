@@ -1,4 +1,4 @@
-name: Deploy carwyn.sec to GitHub Pages
+name: Deploy carwyn.sec
 
 on:
   push:
@@ -19,19 +19,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEPLOY_TARGET: github-pages
-      SITE_URL: https://hphuc032.github.io/carwyn.sec
+      SITE_URL: https://hphuc032.github.io
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Install dependencies
         run: npm ci
@@ -40,7 +40,7 @@ jobs:
         run: npm run lint && npm run type-check
 
       - name: Build static export
-        run: npm run build:github-pages
+        run: npm run build
 
       - name: Validate static export
         run: npm run check:static-export

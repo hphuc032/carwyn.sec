@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { globalUI, localizedPath, sectionIds } from "@/i18n/global-ui";
 import type { Locale } from "@/i18n/locales";
-import { deploymentBasePath, publicRoutePath } from "@/lib/deployment-path";
+import { isStaticExport, publicRoutePath } from "@/lib/deployment-path";
 import { DeploymentLink } from "@/components/ui/DeploymentLink";
 
 export function LanguageSelector({ locale, onNavigate }: { locale: Locale; onNavigate?: () => void }) {
@@ -25,7 +25,7 @@ export function LanguageSelector({ locale, onNavigate }: { locale: Locale; onNav
           try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { /* Ignore malformed hashes. */ }
           const hash = id && (sectionIds.some((section) => section === id) || document.getElementById(id)) ? window.location.hash : "";
           onNavigate?.();
-          if (deploymentBasePath) {
+          if (isStaticExport) {
             window.location.assign(publicRoutePath(href) + window.location.search + hash);
             return;
           }

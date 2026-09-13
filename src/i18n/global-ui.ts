@@ -23,7 +23,8 @@ export const globalUI = {
 } satisfies Record<Locale, { menu: string; close: string; navigation: string; language: string; labels: readonly string[]; unavailable: string; translationUnavailable: string; online: string; compactOnline: string; location: string; system: string; initializing: string; ready: string; home: string }>;
 
 export function publicPath(path: string) {
-  return path.replace(/^\/(en|vi)(?=\/|$)/, "") || "/";
+  const unprefixed = path.replace(/^\/(en|vi)(?=\/|$)/, "") || "/";
+  return unprefixed === "/" ? unprefixed : unprefixed.replace(/\/+$/, "");
 }
 
 // Explicit publication registry. Future content adds reviewed equivalents here.
